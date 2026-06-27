@@ -24,6 +24,7 @@ Hydra + provenance; blocked_stub if needed.
 
 ## Detailed procedure
 
+0. **`orchestra-routing`:** `uv run python scripts/orchestra_route.py resolve execute train`.
 1. Read `research/research_state.yaml` and the phase skill.
 2. Read contract inputs; write contract outputs.
 3. Log via `research_manager` → `decision_log.md`.
@@ -39,6 +40,7 @@ Repeat fail -> controller.
 ## Tools
 
 ```bash
+uv run python scripts/orchestra_route.py resolve execute train
 uv run python scripts/orchestrate_pipeline.py status
 uv run python scripts/orchestrate_pipeline.py gate
 uv run python scripts/integrity_check.py

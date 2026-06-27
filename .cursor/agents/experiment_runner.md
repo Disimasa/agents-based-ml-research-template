@@ -33,6 +33,7 @@ experiments:
 
 ## Procedure
 
+0. **`orchestra-routing`** → `scripts/orchestra_route.py resolve execute train`.
 1. Confirm `experiments_declared` and ethics PASS.
 2. `uv sync --extra torch` or `--extra ml`.
 3. Run `uv run python src/train.py experiment=<name> logger=csv`.
@@ -44,7 +45,13 @@ experiments:
 
 ## Orchestra bridge
 
-Route engineering to Orchestra MIT skills (PEFT, W&B, lm-eval) per `docs/REFERENCES.md` when installed; keep template gates.
+Read `.cursor/orchestra/SKILLS_MAP.yaml` via skill **`orchestra-routing`**:
+
+```bash
+uv run python scripts/orchestra_route.py resolve analyze eval
+```
+
+Optional validate: **`experiment-agent-bridge`** (CC BY-NC opt-in).
 
 ## Quality bar
 

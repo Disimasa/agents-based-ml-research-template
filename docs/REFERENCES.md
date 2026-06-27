@@ -11,7 +11,10 @@ Upstream patterns and optional MIT skill installs by pipeline phase.
 
 ## Optional installs by phase
 
-Template ships **own** `.cursor/agents/` + `.cursor/skills/` (MIT). External repos are optional accelerators.
+Template ships **own** `.cursor/agents/` + `.cursor/skills/` (MIT). External repos are optional.
+
+**Agent routing map (Orchestra):** [`.cursor/orchestra/SKILLS_MAP.yaml`](../.cursor/orchestra/SKILLS_MAP.yaml)  
+**Human install guide:** [ORCHESTRA_INSTALL.md](ORCHESTRA_INSTALL.md)
 
 | Phase | Template skill | Optional external (license) |
 |-------|----------------|----------------------------|
@@ -26,11 +29,11 @@ Template ships **own** `.cursor/agents/` + `.cursor/skills/` (MIT). External rep
 
 ## Orchestra bridge (execute)
 
-When `uv sync --extra ml` and Orchestra skills installed locally:
-
-- Route engineering tasks to Orchestra tool-skills (training, logging, eval)
-- Keep **process gates** from this template (`integrity-check`, HITL approvals)
-- Log session in `research/decision_log.md` (ARA-style via `research_manager`)
+1. Skill **`orchestra-routing`** reads `.cursor/orchestra/SKILLS_MAP.yaml`.
+2. `uv run python scripts/orchestra_route.py resolve execute train`
+3. If Orchestra skill installed in `.cursor/skills/orchestra/` → use it; else template `run-experiment`.
+4. Optional validate: skill **`experiment-agent-bridge`** + [experiment-agent](https://github.com/Imbad0202/experiment-agent) (CC BY-NC).
+5. Always: provenance + `integrity-check` + HITL gates.
 
 ## K-Dense bridge (domain)
 

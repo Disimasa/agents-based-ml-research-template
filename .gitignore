@@ -45,6 +45,10 @@ dvc-storage/*
 .env
 .env.*
 
+# Opt-in Orchestra skill symlinks (see docs/ORCHESTRA_INSTALL.md)
+.cursor/skills/orchestra/*
+!.cursor/skills/orchestra/.gitkeep
+
 # OS
 .DS_Store
 Thumbs.db

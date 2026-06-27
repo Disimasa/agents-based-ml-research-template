@@ -11,9 +11,10 @@
 | `research/manuscript/` | Publication track (draft, reviews, revision) |
 | `research/` | Pipeline state — [research/README.md](research/README.md) |
 | `.cursor/rules/` | 12 governance rules |
-| `.cursor/skills/` | 14 skills (research + publication) |
+| `.cursor/skills/` | 16 skills (research + publication + orchestra bridge) |
+| `.cursor/orchestra/` | SKILLS_MAP + EXTERNAL_SKILLS (Orchestra opt-in routing) |
 | `.cursor/agents/` | 21 agent contracts + playbooks |
-| `scripts/` | `orchestrate_pipeline.py`, `integrity_check.py`, validate |
+| `scripts/` | `orchestrate_pipeline.py`, `orchestra_route.py`, `integrity_check.py`, validate |
 | `shared/schemas/` | JSON schemas |
 
 ## Research + publication pipeline
@@ -33,8 +34,8 @@
 | discover | literature-survey | literature_scout |
 | ideate | hypothesis-ideation | hypothesis_generator |
 | plan | research-plan | methodology_critic |
-| execute | run-experiment / autonomous-loop | experiment_runner |
-| analyze | analyze-results | results_analyst |
+| execute | **orchestra-routing** → run-experiment / autonomous-loop | experiment_runner |
+| analyze | **orchestra-routing** → analyze-results | results_analyst |
 | synthesize | log-decision, integrity-check | integrity_auditor |
 | write | manuscript-draft | manuscript_writer |
 | integrity_pre_review | integrity-check | integrity_auditor (**gate 2.5**, M1–M7) |
@@ -80,6 +81,19 @@ uv run python scripts/orchestrate_pipeline.py advance
 Skill: `.cursor/skills/research-pipeline/SKILL.md`  
 Playbooks: `.cursor/agents/playbooks/*.md`
 
+## Orchestra bridge (execute / analyze)
+
+Карта маршрутизации: `.cursor/orchestra/SKILLS_MAP.yaml` (не в `docs/`).
+
+```bash
+uv run python scripts/orchestra_route.py list
+uv run python scripts/orchestra_route.py resolve execute train
+```
+
+1. Skill **`orchestra-routing`** — Orchestra skill из `.cursor/skills/orchestra/` или template fallback.
+2. Опционально **`experiment-agent-bridge`** (CC BY-NC) — см. `EXTERNAL_SKILLS.yaml`.
+3. Установка: [docs/ORCHESTRA_INSTALL.md](docs/ORCHESTRA_INSTALL.md).
+
 ## Commands
 
 ```bash
@@ -87,6 +101,7 @@ uv sync --group dev
 uv run ruff check src tests scripts
 uv run pytest tests -q
 uv run python scripts/validate_research.py
+uv run python scripts/orchestra_route.py resolve execute train
 uv run python scripts/integrity_check.py --phase integrity_pre_review
 ```
 

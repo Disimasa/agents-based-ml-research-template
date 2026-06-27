@@ -13,7 +13,17 @@
         "properties": {
           "experiment_id": { "type": "string" },
           "hydra_config": { "type": "string" },
-          "wandb_run_id": { "type": ["string", "null"] }
+          "wandb_run_id": { "type": ["string", "null"] },
+          "status": {
+            "type": "string",
+            "enum": ["planned", "running", "completed", "failed", "blocked_stub", "not_executed"]
+          },
+          "verification_status": {
+            "type": "string",
+            "enum": ["planned", "analyzed", "verified"]
+          },
+          "repro_lock": { "type": "object" },
+          "known_limitations": { "type": "array", "items": { "type": "string" } }
         }
       }
     }

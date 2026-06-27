@@ -31,9 +31,11 @@ Role definitions for the modular research pipeline. **Contracts** in this folder
 | peer_reviewer_r3 | review, re_review | [playbooks/peer_reviewer_r3.md](playbooks/peer_reviewer_r3.md) |
 | revision_coach | revise | [playbooks/revision_coach.md](playbooks/revision_coach.md) |
 
-## Skills (14)
+## Skills (16)
 
 Research: `new-project`, `literature-survey`, `hypothesis-ideation`, `research-plan`, `run-experiment`, `autonomous-loop`, `analyze-results`, `log-decision`, `integrity-check`, `research-pipeline`
+
+Orchestra bridge: `orchestra-routing`, `experiment-agent-bridge` (map: `.cursor/orchestra/`)
 
 Publication: `manuscript-draft`, `peer-review`, `revision-coaching`, `manuscript-finalize`
 
@@ -43,6 +45,7 @@ Publication: `manuscript-draft`, `peer-review`, `revision-coaching`, `manuscript
 uv run python scripts/orchestrate_pipeline.py status
 uv run python scripts/orchestrate_pipeline.py gate
 uv run python scripts/orchestrate_pipeline.py profiles
+uv run python scripts/orchestra_route.py list
 uv run python scripts/integrity_check.py --phase integrity_pre_review
 ```
 

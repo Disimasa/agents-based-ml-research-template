@@ -18,6 +18,7 @@ description: Execute phase (autonomous) — inner optimization loop with stop co
 
 - Approved plan (autonomous may auto-approve if integrity PASS)
 - `autonomous.max_iterations`, `metric_primary` set in `research_state.yaml`
+- **`orchestra-routing`** for `execute` / `train_autonomous` (see SKILLS_MAP)
 
 ## Stop conditions
 
@@ -33,6 +34,7 @@ Stop when any:
 
 ```
 while not stopped:
+  0. orchestra-routing → execute/train_autonomous
   1. autonomous_controller selects active hypothesis
   2. experiment_runner → Hydra run (or log blocked_stub)
   3. implementation_reviewer → PASS/FAIL

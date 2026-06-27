@@ -18,8 +18,15 @@ description: Analyze phase — aggregate runs into benchmark JSON and update pro
 - `research/experiment_provenance.yaml`
 - Run artifacts in `outputs/` or W&B
 - `shared/schemas/benchmark_report.schema.json`
+- **`orchestra-routing`** for `analyze` / `eval` (see SKILLS_MAP)
 
 ## Steps
+
+### 0. Route (Orchestra or template)
+
+```bash
+uv run python scripts/orchestra_route.py resolve analyze eval
+```
 
 ### 1. Collect metrics
 

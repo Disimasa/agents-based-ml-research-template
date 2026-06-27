@@ -62,6 +62,17 @@ After `advance`, invoke the printed skill + agent for the new phase.
 
 Skip phases not in `phases_enabled`.
 
+## Orchestra routing (execute / analyze)
+
+Before invoking phase skill for **execute** or **analyze**:
+
+1. Skill **`orchestra-routing`** (read `.cursor/orchestra/SKILLS_MAP.yaml`).
+2. `uv run python scripts/orchestra_route.py resolve <phase> <task>`  
+   - execute → `train` or `train_autonomous`  
+   - analyze → `eval`
+3. Use resolved Orchestra skill or `template_fallback` from the map.
+4. Optional validate: **`experiment-agent-bridge`** (`execute_validate.reproducibility`).
+
 ## Advance protocol
 
 After each phase:

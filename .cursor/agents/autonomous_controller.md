@@ -47,7 +47,8 @@ select hypothesis → experiment_runner → implementation_reviewer → results_
 
 ## Orchestra bridge
 
-Delegate train/eval substeps to Orchestra engineering skills when installed; template integrity gates always on.
+**`orchestra-routing`** → `resolve execute train_autonomous` before each iteration's train step.  
+Delegate train/eval to Orchestra when installed; template integrity gates always on.
 
 ## Quality bar
 

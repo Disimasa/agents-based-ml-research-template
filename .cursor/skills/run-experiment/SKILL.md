@@ -19,8 +19,18 @@ description: Execute phase (HITL) — single Hydra experiment with provenance lo
 - `research/methodology.md` with `experiment_id`
 - Matching `configs/experiment/<name>.yaml`
 - `uv sync --extra torch` (or `--extra ml` for W&B)
+- Run **`orchestra-routing`** first (see `.cursor/orchestra/SKILLS_MAP.yaml`)
 
 ## Steps
+
+### 0. Route (Orchestra or template)
+
+```bash
+uv run python scripts/orchestra_route.py resolve execute train
+```
+
+- If Orchestra skill available → follow `.cursor/skills/orchestra/<name>/SKILL.md`
+- Else → continue with template steps below
 
 ### 1. Pre-flight
 
@@ -53,7 +63,8 @@ experiments:
         executed: true
     negative_results: []
     known_limitations: []
-    status: completed  # or blocked_stub | failed
+    status: completed  # planned | running | completed | failed | blocked_stub | not_executed
+    verification_status: analyzed  # planned | analyzed | verified (experiment-agent-bridge)
 ```
 
 ### 4. Implementation review

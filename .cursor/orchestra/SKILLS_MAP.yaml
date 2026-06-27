@@ -1,0 +1,74 @@
+# Agent routing map: Orchestra opt-in skills vs template fallbacks.
+# Install skills into install_dir (symlinks). See docs/ORCHESTRA_INSTALL.md.
+
+version: 1
+
+install:
+  source_repo: https://github.com/Orchestra-Research/AI-Research-SKILLs
+  install_dir: .cursor/skills/orchestra
+  # Folder names below must match skill directories in the Orchestra repo after clone.
+
+routes:
+  discover:
+    literature_search:
+      orchestra_skills:
+        - paper-search
+        - literature-review
+      template_fallback:
+        skill: literature-survey
+        agent: literature_scout
+
+  ideate:
+    hypothesis_generation:
+      orchestra_skills:
+        - hypothesis-generation
+        - scientific-brainstorming
+      template_fallback:
+        skill: hypothesis-ideation
+        agent: hypothesis_generator
+
+  execute:
+    train:
+      orchestra_skills:
+        - wandb
+        - pytorch-lightning
+        - peft
+        - trl
+      template_fallback:
+        skill: run-experiment
+        agent: experiment_runner
+      notes: Prefer Orchestra for W&B/PEFT/TRL; always record provenance in research/.
+
+    train_autonomous:
+      orchestra_skills:
+        - autoresearch
+        - wandb
+      template_fallback:
+        skill: autonomous-loop
+        agent: autonomous_controller
+
+  analyze:
+    eval:
+      orchestra_skills:
+        - lm-eval
+        - wandb
+      template_fallback:
+        skill: analyze-results
+        agent: results_analyst
+
+  execute_validate:
+    reproducibility:
+      orchestra_skills: []
+      external_bridge: experiment-agent-bridge
+      external_modes: [validate, run]
+      template_fallback:
+        skill: run-experiment
+        agent: implementation_reviewer
+      notes: See .cursor/orchestra/EXTERNAL_SKILLS.yaml for experiment-agent (CC BY-NC).
+
+rules:
+  - Always run orchestra-routing before execute/analyze engineering work.
+  - If no orchestra skill installed, use template_fallback only.
+  - After any run, append research/experiment_provenance.yaml and run integrity M2 M4 M6.
+  - Never skip uv run python scripts/orchestrate_pipeline.py gate in hitl mode.
+  - External NC skills (experiment-agent) require explicit user opt-in; never bundle.

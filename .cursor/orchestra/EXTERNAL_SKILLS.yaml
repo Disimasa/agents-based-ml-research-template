@@ -1,0 +1,28 @@
+# Optional external skills — NOT bundled in template (agent-readable).
+
+experiment_agent:
+  name: experiment-agent
+  license: CC-BY-NC-4.0
+  repo: https://github.com/Imbad0202/experiment-agent
+  install: separate clone; symlink SKILL.md or run from cloned repo
+  bridge_skill: experiment-agent-bridge
+  phases: [execute, analyze]
+  modes:
+    plan: Design experiment protocol (Socratic); maps to template research-plan overlap
+    run: Execute and monitor code experiments
+    manage: Human studies protocol (if applicable)
+    validate: Statistical interpretation + reproducibility re-run
+  material_passport_fields:
+    - verification_status  # planned | analyzed | verified
+    - repro_lock.paths
+  template_fallback:
+    plan: research-plan
+    run: run-experiment
+    validate: analyze-results
+  ars_position: Between ARS Stage 1 (research) and Stage 2 (write); template maps to execute → analyze
+
+k_dense:
+  name: scientific-agent-skills
+  license: MIT
+  repo: https://github.com/K-Dense-AI/scientific-agent-skills
+  note: Discovery-only; no orchestrator — compose via research-pipeline skill
