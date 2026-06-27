@@ -3,11 +3,43 @@
   "$id": "benchmark_report.schema.json",
   "title": "Benchmark Report",
   "type": "object",
-  "required": ["experiment_id", "metrics"],
+  "required": ["experiment_id", "primary_metric"],
   "properties": {
     "experiment_id": { "type": "string" },
+    "hypothesis_id": { "type": ["string", "null"] },
     "baseline_id": { "type": ["string", "null"] },
-    "metrics": { "type": "object" },
-    "honest_comparison_notes": { "type": "string" }
-  }
+    "primary_metric": {
+      "type": "object",
+      "required": ["name", "status"],
+      "properties": {
+        "name": { "type": "string" },
+        "value": { "type": ["number", "null"] },
+        "status": {
+          "type": "string",
+          "enum": ["executed", "not_executed", "failed"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "baselines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" },
+          "value": { "type": ["number", "null"] },
+          "source": { "type": "string" }
+        }
+      }
+    },
+    "limitations": { "type": "array", "items": { "type": "string" } },
+    "negative_results": { "type": "array", "items": { "type": "string" } },
+    "honest_comparison_notes": { "type": "string" },
+    "metrics": { "type": "object" }
+  },
+  "anyOf": [
+    { "required": ["honest_comparison_notes"], "properties": { "honest_comparison_notes": { "minLength": 1 } } },
+    { "properties": { "limitations": { "minItems": 1 } } }
+  ]
 }

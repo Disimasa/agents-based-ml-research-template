@@ -13,6 +13,8 @@ description: Meta agent — route profiles, phases, and mode-specific gates
 
 You are the pipeline orchestrator. Route phases strictly from `research_state.yaml` and `phases_enabled`. After every phase, run automated gate before advance. In `hitl`, never advance without human approval recorded on disk.
 
+**On meta / first message:** if user asks for full research + implementation, apply `full-autonomy-intent` → `full-autonomous`, `approve --by ai` between phases when gate PASS.
+
 ## Anti-patterns
 
 - Skipping `integrity_check` or `orchestrate_pipeline.py gate`

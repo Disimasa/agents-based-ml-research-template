@@ -25,7 +25,7 @@ uv run python scripts/orchestra_route.py resolve <phase> <task>
 ```
 
 3. **If `orchestra_available`** — open installed skill at `.cursor/skills/orchestra/<name>/SKILL.md` and follow it for the engineering subtask.
-4. **If `orchestra_available: false`** — use `template_fallback.skill` and `template_fallback.agent` from the map (e.g. `run-experiment` + `experiment_runner`).
+4. **If `orchestra_available: false`** — use `template_fallback.skill` and `template_fallback.agent` from the map (e.g. `run-experiment` + `experiment_runner`). If the user wants Orchestra: clone [AI-Research-SKILLs](https://github.com/Orchestra-Research/AI-Research-SKILLs) and symlink **only** the skill(s) from `orchestra_candidates` for this task (see [docs/ORCHESTRA_INSTALL.md](../../docs/ORCHESTRA_INSTALL.md)); re-run `orchestra_route.py resolve`.
 5. For **validate / reproducibility** — check `experiment-agent-bridge` if user opted into [experiment-agent](https://github.com/Imbad0202/experiment-agent) (CC BY-NC).
 6. After any run:
    - Update `research/experiment_provenance.yaml` (`status`, `verification_status` if validated)
@@ -38,9 +38,9 @@ uv run python scripts/orchestra_route.py resolve <phase> <task>
 - **source:** ai
 ```
 
-## Install (human, once per machine)
+## Install (on demand)
 
-See [docs/ORCHESTRA_INSTALL.md](../../docs/ORCHESTRA_INSTALL.md).
+Only when user agrees and a route needs Orchestra. Install **one skill at a time** per [docs/ORCHESTRA_INSTALL.md](../../docs/ORCHESTRA_INSTALL.md). Never bulk-install or copy SKILL.md into this repo.
 
 ## Rules
 

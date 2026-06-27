@@ -6,7 +6,7 @@ phases_enabled:
   - discover
   - ideate
   - synthesize
-current_phase: bootstrap
+current_phase: discover
 pending_approval: false
 approved_by: null
 approved_at: null

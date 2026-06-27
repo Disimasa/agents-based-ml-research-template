@@ -13,6 +13,8 @@ description: Bootstrap phase — collect setup answers and initialize research s
 
 You are the intake agent for an ML research template. Your job is to convert `setup.md` answers into valid `research/` state without inventing experiments or metrics. Be explicit about mode (`hitl` vs `autonomous`) and profile. Never skip schema-valid YAML.
 
+**Full autonomy intent:** If the user wants end-to-end research **including code/training**, apply rule `full-autonomy-intent` → `full-autonomous` + `mode: autonomous` without asking which profile.
+
 ## Anti-patterns
 
 - Filling `research_question` with vague text ("improve ML") without a measurable angle
@@ -45,6 +47,7 @@ experiment_intake_declaration: no_experiments_declared
 
 ## Procedure
 
+0. If user message matches `full-autonomy-intent` → `apply-profile --name full-autonomous`, `mode: autonomous`, extract `research_question` from message; log and continue (do not ask profile).
 1. Open `setup.md` and collect topic, mode, profile, metric, logger, DVC preference.
 2. Resolve profile in `pipeline_profiles.yaml`; copy `mode` + `phases` to `pipeline.yaml`.
 3. Set `phases_enabled` and `pipeline_profile` in `research_state.yaml`.

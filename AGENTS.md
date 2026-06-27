@@ -10,7 +10,7 @@
 | `src/modeling/` | Training code (stub until Wave A) |
 | `research/manuscript/` | Publication track (draft, reviews, revision) |
 | `research/` | Pipeline state — [research/README.md](research/README.md) |
-| `.cursor/rules/` | 12 governance rules |
+| `.cursor/rules/` | 13 governance rules (incl. `full-autonomy-intent`) |
 | `.cursor/skills/` | 16 skills (research + publication + orchestra bridge) |
 | `.cursor/orchestra/` | SKILLS_MAP + EXTERNAL_SKILLS (Orchestra opt-in routing) |
 | `.cursor/agents/` | 21 agent contracts + playbooks |
@@ -25,6 +25,10 @@
 |------|-----------|
 | `hitl` | `pending_approval` + `approved_by: human` между фазами |
 | `autonomous` | auto-advance при PASS gate; inner loop на execute |
+
+### Full autonomy intent ("do everything + develop")
+
+Rule **`.cursor/rules/full-autonomy-intent.mdc`** (always on): agent **does not ask for profile** — sets `full-autonomous` + `mode: autonomous`, writes code on execute, logs to `to_human/summary.md`. Exception: paper only without code → `publication-only` / `full-publication` (hitl at review).
 
 ### Фазы (14)
 
@@ -68,6 +72,8 @@
 
 ```bash
 uv run python scripts/orchestrate_pipeline.py status
+uv run python scripts/orchestrate_pipeline.py apply-profile --name full-hitl
+uv run python scripts/orchestrate_pipeline.py pipeline-profiles
 uv run python scripts/orchestrate_pipeline.py gate
 uv run python scripts/orchestrate_pipeline.py profiles
 uv run python scripts/orchestrate_pipeline.py approve --by human
@@ -92,7 +98,7 @@ uv run python scripts/orchestra_route.py resolve execute train
 
 1. Skill **`orchestra-routing`** — Orchestra skill из `.cursor/skills/orchestra/` или template fallback.
 2. Опционально **`experiment-agent-bridge`** (CC BY-NC) — см. `EXTERNAL_SKILLS.yaml`.
-3. Установка: [docs/ORCHESTRA_INSTALL.md](docs/ORCHESTRA_INSTALL.md).
+3. Установка по задаче: [docs/ORCHESTRA_INSTALL.md](docs/ORCHESTRA_INSTALL.md) (агент ставит только нужный skill).
 
 ## Commands
 
@@ -100,9 +106,11 @@ uv run python scripts/orchestra_route.py resolve execute train
 uv sync --group dev
 uv run ruff check src tests scripts
 uv run pytest tests -q
-uv run python scripts/validate_research.py
+```bash
+uv run python scripts/orchestrate_pipeline.py apply-profile --name hypothesis-only
+uv run python scripts/orchestrate_pipeline.py status
+uv run python scripts/orchestrate_pipeline.py gate
 uv run python scripts/orchestra_route.py resolve execute train
-uv run python scripts/integrity_check.py --phase integrity_pre_review
 ```
 
 ## External optional

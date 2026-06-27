@@ -1,6 +1,6 @@
 ---
 name: new-project
-description: Bootstrap phase — initialize research state from setup.md into passport and pipeline config
+description: Bootstrap phase — initialize research state; maps full-autonomy user intent to full-autonomous profile
 ---
 
 # New project (bootstrap)
@@ -12,23 +12,37 @@ description: Bootstrap phase — initialize research state from setup.md into pa
 
 - Fresh fork of the template
 - User says "start research", "new project", or completes `setup.md`
+- User asks for **full end-to-end research + implementation** → see rule `full-autonomy-intent` → `full-autonomous` (skip asking profile)
 - Profile includes `bootstrap` phase
 
-## Prerequisites
+## Intent → profile (before step 1)
 
-Read `setup.md`, `research/pipeline_profiles.yaml`, `shared/schemas/passport.schema.json`.
+| User intent | Profile | Mode |
+|-------------|---------|------|
+| End-to-end + develop / train / implement | `full-autonomous` | `autonomous` |
+| Research track, human approves each phase | `full-hitl` | `hitl` |
+| Hypotheses only, no code | `hypothesis-only` | `hitl` |
+| Manuscript only | `publication-only` | `hitl` |
+| Research + paper | `full-publication` | `hitl` |
+
+If triggers match `full-autonomy-intent`, run `apply-profile --name full-autonomous` and set `mode: autonomous` without prompting.
 
 ## Steps
 
-1. **Collect inputs** (from user or `setup.md`):
+**Prerequisites:** `setup.md`, `research/pipeline_profiles.yaml`, `shared/schemas/passport.schema.json`.
+
+1. **Detect intent** (rule `full-autonomy-intent`). If full end-to-end + code → `apply-profile --name full-autonomous`, `mode: autonomous`, skip profile question.
+2. **Collect inputs** (from user message or `setup.md`):
    - Working title / research question
    - `mode`: `hitl` | `autonomous`
    - `pipeline_profile`: e.g. `hypothesis-only`, `full-hitl`, `full-autonomous`, `custom`
    - Primary metric, logger preference, DVC yes/no
 
-2. **Resolve profile** in `research/pipeline_profiles.yaml`:
-   - Copy `mode` and `phases` into `research/pipeline.yaml`
-   - Set `phases_enabled` in `research/research_state.yaml`
+3. **Resolve profile** — prefer CLI when intent is clear:
+   ```bash
+   uv run python scripts/orchestrate_pipeline.py apply-profile --name full-autonomous
+   ```
+   Or copy `mode` and `phases` into `research/pipeline.yaml` and `phases_enabled` in `research_state.yaml`.
 
 3. **Write `research/passport.yaml`:**
    ```yaml

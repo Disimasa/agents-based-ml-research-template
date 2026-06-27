@@ -35,18 +35,27 @@ uv run python scripts/orchestra_route.py resolve analyze eval
 
 ### 2. Write `reports/benchmarks/{experiment_id}.json`
 
-Minimum fields per schema:
+Canonical format — `shared/schemas/benchmark_report.schema.json`:
 
 ```json
 {
   "experiment_id": "exp_001",
   "hypothesis_id": "hyp_001",
-  "primary_metric": { "name": "...", "value": null, "status": "not_executed" },
+  "primary_metric": {
+    "name": "accuracy",
+    "value": null,
+    "status": "not_executed"
+  },
   "baselines": [],
-  "limitations": [],
-  "negative_results": []
+  "limitations": ["Training stub — no metrics collected."],
+  "negative_results": [],
+  "honest_comparison_notes": "Optional if limitations is non-empty."
 }
 ```
+
+Required: `experiment_id`, `primary_metric` (`name`, `status`), and either non-empty `honest_comparison_notes` or at least one `limitations` entry.
+
+Validate: `uv run python scripts/validate_benchmark.py`
 
 ### 3. Update provenance
 

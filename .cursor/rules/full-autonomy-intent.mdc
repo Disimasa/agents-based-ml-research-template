@@ -1,0 +1,48 @@
+---
+description: Map "do everything / develop solution" user requests to full-autonomous pipeline
+alwaysApply: true
+---
+
+# Full autonomy intent
+
+When the user asks for **end-to-end research including implementation**, do **not** stay on default `hypothesis-only` / `hitl`. Treat it as **full autonomy**.
+
+## Trigger phrases
+
+Any of these (alone or combined) → **full-autonomous** + `mode: autonomous`:
+
+- "do everything", "full research", "end-to-end", "run the full pipeline", "from start to finish"
+- "develop the solution", "implement", "write the code", "train the model", "run experiments"
+- "find the best approach" **together with** build / train / implement wording
+- "fully autonomous", "without my approval", "you handle it all"
+
+**Not** full autonomy (stay `hitl` or lighter profile):
+
+- Literature / hypotheses / plan only, no code ("literature review", "hypotheses only", "plan without running")
+- Single phase ("help with discover only")
+- Publication-only ("write the paper") without research+code → `publication-only` or `full-publication`, still `hitl` for review gates
+
+**Publication + code:** user wants a manuscript too → `full-publication`, `mode: hitl` (human at review gates) unless they explicitly waive review.
+
+## Required agent actions
+
+1. Log intent in `research/decision_log.md` (`action: full_autonomy_intent`).
+2. Apply profile:
+   ```bash
+   uv run python scripts/orchestrate_pipeline.py apply-profile --name full-autonomous
+   ```
+3. Set `research/passport.yaml` → `research_question` from the user message (one falsifiable sentence).
+4. Set `research_state.yaml` → `mode: autonomous`, fill `autonomous.metric_primary` if known or infer from domain; else pick a reasonable default and note in `to_human/`.
+5. Invoke skill **`research-pipeline`** and run phases in order until synthesize (or stop conditions on execute).
+6. On **execute**: write `src/train.py` / `src/modeling/` as needed; use **`autonomous-loop`**; `approve --by ai` between phases when gate PASS.
+7. Write progress to `research/to_human/summary.md` each major step.
+
+## Do not
+
+- Ask which profile when triggers are clear — choose `full-autonomous`.
+- Use `hypothesis-only` for "full research and develop the solution".
+- Fabricate metrics if train is not ready — use `blocked_stub` and keep iterating code.
+
+## Resume
+
+If the user later says "continue" / "finish it" with the same end-to-end intent, read `orchestrate_pipeline.py status` and continue from `current_phase` without downgrading to hitl.

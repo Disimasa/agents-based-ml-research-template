@@ -22,6 +22,14 @@
             "type": "string",
             "enum": ["planned", "analyzed", "verified"]
           },
+          "planned_vs_executed": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "negative_results": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
           "repro_lock": { "type": "object" },
           "known_limitations": { "type": "array", "items": { "type": "string" } }
         }

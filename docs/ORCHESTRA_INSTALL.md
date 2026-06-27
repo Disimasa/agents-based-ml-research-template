@@ -4,11 +4,11 @@ Agent routing map lives in **`.cursor/orchestra/SKILLS_MAP.yaml`** (not in this 
 
 ## Quick install
 
+Install **only the skills you need** for the current task (agent-driven). Clone once, then symlink individual folders:
+
 ```bash
-# 1. Clone Orchestra repo next to your project (or anywhere)
 git clone https://github.com/Orchestra-Research/AI-Research-SKILLs.git ../AI-Research-SKILLs
 
-# 2. Symlink selected skills into template install dir
 mkdir -p .cursor/skills/orchestra
 
 # Windows (PowerShell, admin may be required for symlinks)
@@ -18,7 +18,7 @@ New-Item -ItemType SymbolicLink -Path ".cursor/skills/orchestra/wandb" -Target "
 ln -s ../../../AI-Research-SKILLs/wandb .cursor/skills/orchestra/wandb
 ```
 
-Repeat for skills listed in `SKILLS_MAP.yaml` (start with **wandb**, **lm-eval**, **peft**).
+Repeat for skills listed in `SKILLS_MAP.yaml` for your phase/task (e.g. **wandb** for train, **lm-eval** for analyze). Do not install the full repo into the template.
 
 ## Verify
 

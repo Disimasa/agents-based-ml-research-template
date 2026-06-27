@@ -8,4 +8,6 @@ alwaysApply: true
 Read `research/research_state.yaml` → `mode`.
 
 - In `hitl` mode: do not advance phases without `approved_by: human` in `research/research_state.yaml`.
-- In `autonomous` mode: log to `research/decision_log.md` and `research/to_human/`.
+- In `autonomous` mode: log to `research/decision_log.md` and `research/to_human/`; use `approve --by ai` when gate PASS.
+
+**User wants full research + code?** See rule `full-autonomy-intent` → `full-autonomous` profile, do not ask which profile.

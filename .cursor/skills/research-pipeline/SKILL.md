@@ -11,7 +11,18 @@ description: Meta orchestrator — route modular phases by profile and mode (hit
 ## When to use
 
 - User invokes `/research-pipeline` or asks to run full/partial research workflow
+- User asks to **do everything / develop solution / full research with code** → rule `full-autonomy-intent` → `full-autonomous` + autonomous (apply immediately)
 - Need to switch profile or resume from `current_phase`
+
+## Full autonomy (no profile question)
+
+If the user message matches `full-autonomy-intent` (see `.cursor/rules/full-autonomy-intent.mdc`):
+
+```bash
+uv run python scripts/orchestrate_pipeline.py apply-profile --name full-autonomous
+```
+
+Set `mode: autonomous`, fill `research_question` and `autonomous.metric_primary`, then run phases until synthesize. On execute use `autonomous-loop`. Log to `research/to_human/summary.md`.
 
 ## Invocation
 
@@ -34,7 +45,9 @@ description: Meta orchestrator — route modular phases by profile and mode (hit
 
 ```bash
 uv run python scripts/orchestrate_pipeline.py status    # where am I?
-uv run python scripts/orchestrate_pipeline.py gate      # schema + M1–M5 + approval rules
+uv run python scripts/orchestrate_pipeline.py apply-profile --name full-hitl
+uv run python scripts/orchestrate_pipeline.py pipeline-profiles
+uv run python scripts/orchestrate_pipeline.py gate      # schema + phase-aware M1–M7
 uv run python scripts/orchestrate_pipeline.py approve --by human
 uv run python scripts/orchestrate_pipeline.py advance   # next phase (after gate PASS)
 ```
@@ -49,8 +62,8 @@ After `advance`, invoke the printed skill + agent for the new phase.
 | 1 | discover | literature-survey | literature_scout |
 | 2 | ideate | hypothesis-ideation | hypothesis_generator |
 | 3 | plan | research-plan | methodology_critic |
-| 4 | execute | run-experiment **or** autonomous-loop | experiment_runner / autonomous_controller |
-| 5 | analyze | analyze-results | results_analyst |
+| 4 | execute | orchestra-routing → run-experiment **or** autonomous-loop | experiment_runner / autonomous_controller |
+| 5 | analyze | orchestra-routing → analyze-results | results_analyst |
 | 6 | synthesize | log-decision + integrity-check | integrity_auditor |
 | 7 | write | manuscript-draft | manuscript_writer |
 | 8 | integrity_pre_review | integrity-check (**gate 2.5**, M1–M7) | integrity_auditor |

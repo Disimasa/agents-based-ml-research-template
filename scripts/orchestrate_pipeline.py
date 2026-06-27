@@ -16,6 +16,7 @@ from src.utils.integrity import (
     next_phase,
     run_integrity_check,
 )
+from src.utils.pipeline import apply_pipeline_profile, list_pipeline_profile_names
 from src.utils.validate import RESEARCH_DIR, validate_research
 
 PHASE_SKILLS = {
@@ -23,8 +24,8 @@ PHASE_SKILLS = {
     "discover": "literature-survey",
     "ideate": "hypothesis-ideation",
     "plan": "research-plan",
-    "execute": "run-experiment / autonomous-loop",
-    "analyze": "analyze-results",
+    "execute": "orchestra-routing → run-experiment / autonomous-loop",
+    "analyze": "orchestra-routing → analyze-results",
     "synthesize": "log-decision + integrity-check",
     "write": "manuscript-draft",
     "integrity_pre_review": "integrity-check (gate 2.5)",
@@ -177,13 +178,42 @@ def cmd_profiles() -> int:
     return 0
 
 
+def cmd_pipeline_profiles() -> int:
+    print("Pipeline profiles (research/pipeline_profiles.yaml):")
+    for name in list_pipeline_profile_names():
+        print(f"  {name}")
+    return 0
+
+
+def cmd_apply_profile(name: str) -> int:
+    try:
+        result = apply_pipeline_profile(name)
+    except ValueError as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    print(f"OK: applied profile={result['profile']}")
+    print(f"mode: {result['mode']}")
+    print(f"current_phase: {result['current_phase']}")
+    print(f"phases_enabled: {result['phases_enabled']}")
+    skill = PHASE_SKILLS.get(result["current_phase"])
+    agent = PHASE_AGENTS.get(result["current_phase"])
+    if skill:
+        print(f"invoke skill: {skill}")
+    if agent:
+        print(f"invoke agent: {agent}")
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Research pipeline orchestrator")
     sub = parser.add_subparsers(dest="command", required=True)
 
     sub.add_parser("status", help="Show current pipeline state")
     sub.add_parser("gate", help="Schema + phase-aware integrity gate")
-    sub.add_parser("profiles", help="List gate profiles (2.5 / 4.5 / default)")
+    sub.add_parser("profiles", help="List integrity gate profiles (2.5 / 4.5 / default)")
+    sub.add_parser("pipeline-profiles", help="List pipeline presets from pipeline_profiles.yaml")
+    apply_prof = sub.add_parser("apply-profile", help="Apply a pipeline profile to research_state")
+    apply_prof.add_argument("--name", required=True, help="Profile name, e.g. full-hitl")
     approve = sub.add_parser("approve", help="Record phase approval")
     approve.add_argument("--by", choices=["human", "ai"], required=True)
     sub.add_parser("advance", help="Advance to next enabled phase")
@@ -195,6 +225,10 @@ def main() -> int:
         return cmd_gate()
     if args.command == "profiles":
         return cmd_profiles()
+    if args.command == "pipeline-profiles":
+        return cmd_pipeline_profiles()
+    if args.command == "apply-profile":
+        return cmd_apply_profile(args.name)
     if args.command == "approve":
         return cmd_approve(args.by)
     if args.command == "advance":

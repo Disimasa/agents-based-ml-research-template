@@ -7,7 +7,22 @@
   "properties": {
     "research_question": { "type": ["string", "null"] },
     "phase": { "type": "string" },
-    "claims": { "type": "array", "items": { "type": "object" } },
+    "write_status": {
+      "type": "string",
+      "enum": ["draft", "in_review", "revised", "finalized"]
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": { "type": "string" },
+          "experiment_id": { "type": "string" },
+          "source_id": { "type": ["string", "null"] },
+          "evidence": { "type": "string" }
+        }
+      }
+    },
     "planned_experiment_ids": { "type": "array", "items": { "type": "string" } },
     "experiment_intake_declaration": {
       "type": "string",
