@@ -15,15 +15,15 @@ description: Ideate phase — ranked falsifiable hypotheses with devil's advocat
 
 ## Prerequisites
 
-- `research/passport.yaml`
+- `runtime/state/passport.yaml`
 - Literature artifacts (if discover ran)
-- `shared/schemas/hypotheses.schema.json`
+- `runtime/schemas/hypotheses.schema.json`
 
 ## Steps
 
 ### 1. Generate (`hypothesis_generator`)
 
-Edit `research/hypotheses.yaml`:
+Edit `runtime/state/hypotheses.yaml`:
 
 ```yaml
 hypotheses:
@@ -51,7 +51,7 @@ Apply at least two:
 For each `proposed` hypothesis:
 
 - List confounders, leakage risks, vague metrics
-- Set `status: rejected` or add mitigation to `decision_log.md`
+- Set `status: rejected` or add mitigation to `research/decision_log.md`
 - **Block** if falsification criteria are not measurable
 
 ### 4. Selection

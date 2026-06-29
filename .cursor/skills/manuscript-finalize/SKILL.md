@@ -17,17 +17,17 @@ description: Finalize phase — submission-ready package after gate 4.5
 1. Confirm gate:
 
 ```bash
-uv run python scripts/orchestrate_pipeline.py gate
+uv run python runtime/scripts/orchestrate_pipeline.py gate
 # gate: ARS gate 4.5 (pre-finalize)
 ```
 
-2. Polish `draft.md`: abstract, limitations, consistency pass.
+2. Polish `research/manuscript/draft.md`: abstract, limitations, consistency pass.
 3. Export checklist to `research/to_human/finalize_checklist.md`:
    - all claims tagged
    - benchmarks linked
-   - reviews.yaml complete
+   - `runtime/state/manuscript_reviews.yaml` complete
 4. Set `passport.write_status: finalized`.
-5. Log in `decision_log.md`; pipeline complete.
+5. Log in `research/decision_log.md`; pipeline complete.
 
 ## Optional
 

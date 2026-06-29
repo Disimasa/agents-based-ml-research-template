@@ -29,7 +29,7 @@ If triggers match `full-autonomy-intent`, run `apply-profile --name full-autonom
 
 ## Steps
 
-**Prerequisites:** `setup.md`, `research/pipeline_profiles.yaml`, `shared/schemas/passport.schema.json`.
+**Prerequisites:** `setup.md`, `runtime/state/pipeline_profiles.yaml`, `runtime/schemas/passport.schema.json`.
 
 1. **Detect intent** (rule `full-autonomy-intent`). If full end-to-end + code → `apply-profile --name full-autonomous`, `mode: autonomous`, skip profile question.
 2. **Collect inputs** (from user message or `setup.md`):
@@ -40,11 +40,11 @@ If triggers match `full-autonomy-intent`, run `apply-profile --name full-autonom
 
 3. **Resolve profile** — prefer CLI when intent is clear:
    ```bash
-   uv run python scripts/orchestrate_pipeline.py apply-profile --name full-autonomous
+   uv run python runtime/scripts/orchestrate_pipeline.py apply-profile --name full-autonomous
    ```
-   Or copy `mode` and `phases` into `research/pipeline.yaml` and `phases_enabled` in `research_state.yaml`.
+   Or copy `mode` and `phases` into `runtime/state/pipeline.yaml` and `phases_enabled` in `runtime/state/research_state.yaml`.
 
-3. **Write `research/passport.yaml`:**
+3. **Write `runtime/state/passport.yaml`:**
    ```yaml
    research_question: "<one sentence>"
    phase: bootstrap
@@ -53,7 +53,7 @@ If triggers match `full-autonomy-intent`, run `apply-profile --name full-autonom
    experiment_intake_declaration: no_experiments_declared
    ```
 
-4. **Write `research/research_state.yaml`:**
+4. **Write `runtime/state/research_state.yaml`:**
    ```yaml
    mode: hitl  # or autonomous
    pipeline_profile: <profile>

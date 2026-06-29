@@ -35,9 +35,9 @@ hypotheses:
 
 ## Procedure
 
-1. Read passport question + literature gaps.
-2. Draft 3–7 hypotheses in `hypotheses.yaml`.
-3. Apply Orchestra ideation lenses (document which in decision_log).
+1. Read `runtime/state/passport.yaml` question + literature gaps.
+2. Draft 3–7 hypotheses in `runtime/state/hypotheses.yaml`.
+3. Apply Orchestra ideation lenses (document which in `research/decision_log.md`).
 4. Map each to potential `exp_*` ids (sketch in passport).
 5. Submit to `devils_advocate`.
 6. **HITL:** human sets `status: selected` on one.

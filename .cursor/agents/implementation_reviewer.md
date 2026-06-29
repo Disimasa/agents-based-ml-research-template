@@ -35,7 +35,7 @@ M1 bug-check lite before analyze: seeds, splits, metrics, config alignment. FAIL
 3. Compare logged metric vs methodology primary.
 4. If stub run, FAIL analyze path unless explicitly exploratory.
 5. Write verdict + limitations to provenance.
-6. Log in `decision_log.md`.
+6. Log in `research/decision_log.md`.
 7. FAIL → experiment_runner with fix list.
 8. PASS → results_analyst.
 

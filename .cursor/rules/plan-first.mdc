@@ -6,5 +6,5 @@ alwaysApply: true
 # Plan first
 
 - Before edits spanning `src/`, `configs/`, and `research/`, state the goal, files to touch, and risks.
-- For pipeline phase changes, read `research/research_state.yaml` and name the target phase.
+- For pipeline phase changes, read `runtime/state/research_state.yaml` and name the target phase.
 - In `hitl` mode, do not execute a multi-step plan past the current gate without approval.

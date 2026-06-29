@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from src.utils.orchestra_route import load_skills_map, resolve_route
+from runtime.utils.orchestra_route import load_skills_map, resolve_route
 
 
 def test_skills_map_loads() -> None:

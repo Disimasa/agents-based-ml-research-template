@@ -19,13 +19,13 @@ description: Micro-gate — 7-mode integrity verification (M1–M7) with ARS gat
 ## Automated execution (required)
 
 ```bash
-uv run python scripts/validate_research.py
-uv run python scripts/integrity_check.py --phase integrity_pre_review  # gate 2.5
-uv run python scripts/integrity_check.py --phase integrity_final       # gate 4.5
-uv run python scripts/orchestrate_pipeline.py gate
+uv run python runtime/scripts/validate_research.py
+uv run python runtime/scripts/integrity_check.py --phase integrity_pre_review  # gate 2.5
+uv run python runtime/scripts/integrity_check.py --phase integrity_final       # gate 4.5
+uv run python runtime/scripts/orchestrate_pipeline.py gate
 ```
 
-Default research phases: `uv run python scripts/integrity_check.py` (M1–M5 via profile).
+Default research phases: `uv run python runtime/scripts/integrity_check.py` (M1–M5 via profile).
 
 ## Seven modes
 
@@ -34,10 +34,10 @@ Default research phases: `uv run python scripts/integrity_check.py` (M1–M5 via
 | M1 | Literature claims → verified `results/*.json` |
 | M2 | No fabricated metrics |
 | M3 | Falsifiable hypotheses |
-| M4 | Results claims → `experiment_provenance.yaml` |
+| M4 | Results claims → `runtime/state/experiment_provenance.yaml` |
 | M5 | Methodology ↔ `configs/` ↔ `src/` |
-| M6 | `reports/benchmarks/*.json` schema + honest_comparison_notes |
-| M7 | `manuscript/draft.md` ↔ passport + provenance |
+| M6 | `runtime/state/benchmarks/*.json` schema + honest_comparison_notes |
+| M7 | `research/manuscript/draft.md` ↔ passport + provenance |
 
 ## Gate profiles
 
@@ -48,11 +48,11 @@ Default research phases: `uv run python scripts/integrity_check.py` (M1–M5 via
 | `gate_4_5_final` | `integrity_final` | M1–M7 |
 | `publication_light` | review, re_review, finalize | M4, M6, M7 |
 
-List profiles: `uv run python scripts/orchestrate_pipeline.py profiles`
+List profiles: `uv run python runtime/scripts/orchestrate_pipeline.py profiles`
 
 ## Retry policy
 
-- HITL: max 3 FAIL retries per phase; human override in `decision_log.md`
+- HITL: max 3 FAIL retries per phase; human override in `research/decision_log.md`
 - Autonomous: one auto-fix; then `research/to_human/integrity_fail.md`
 
 ## Handoff

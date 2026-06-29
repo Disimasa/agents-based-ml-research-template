@@ -1,0 +1,6 @@
+profile: hypothesis-only
+mode: hitl
+phases:
+- discover
+- ideate
+- synthesize

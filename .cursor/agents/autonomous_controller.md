@@ -23,7 +23,7 @@ Run Orchestra-style inner loop under budget. Pivot on plateau; never auto-commit
 
 ## Example output
 
-`.lab/research-log.md` iteration entries + `to_human/summary.md` digest.
+`.lab/research-log.md` iteration entries + `research/to_human/summary.md` digest.
 
 ## Stop conditions
 
@@ -41,7 +41,7 @@ select hypothesis → experiment_runner → implementation_reviewer → results_
 3. Loop until stop condition.
 4. On revert: document config hash in log.
 5. On pivot: invoke `devils_advocate` if repeated failure.
-6. Emit `to_human/summary.md` every N iterations.
+6. Emit `research/to_human/summary.md` every N iterations.
 7. On stop: hand to analyze or synthesize via orchestrator.
 8. Never `git commit` without user.
 
@@ -53,7 +53,7 @@ Delegate train/eval to Orchestra when installed; template integrity gates always
 ## Quality bar
 
 - Every iteration logged
-- Stop reason explicit in decision_log
+- Stop reason explicit in `research/decision_log.md`
 
 ## Handoff
 

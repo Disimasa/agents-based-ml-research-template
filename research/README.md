@@ -1,21 +1,15 @@
 # Research
 
-Состояние research-pipeline для агентов: вопросы, гипотезы, план, связь с экспериментами. Код обучения — в `src/`, конфиги runs — в `configs/`.
+Ваши артефакты — то, что агент пишет **для вас**, а не служебные файлы pipeline.
 
-## Файлы
+| Путь | Для кого | Содержание |
+|------|----------|------------|
+| `methodology.md` | **Вы** | План методологии |
+| `decision_log.md` | **Вы** | Журнал решений |
+| `literature/` | **Вы** | Карточки статей (`results/*.json`), сводки |
+| `to_human/` | **Вы** | Краткие отчёты (autonomous) |
+| `manuscript/draft.md` | **Вы** | Черновик статьи |
 
-| Файл | Назначение |
-|------|------------|
-| `passport.yaml` | Тема, claims, связь с experiment_id |
-| `research_state.yaml` | Режим (`hitl` / `autonomous`), текущая фаза, approvals |
-| `pipeline.yaml` | Активный профиль pipeline |
-| `pipeline_profiles.yaml` | Пресеты (`hypothesis-only`, `full-hitl`, …) |
-| `hypotheses.yaml` | Гипотезы |
-| `methodology.md` | План методологии |
-| `experiment_provenance.yaml` | Журнал запусков (Hydra, W&B) |
-| `decision_log.md` | Решения (user / ai) |
-| `literature/` | Обзор литературы по темам; шаблон — `_example/` |
-| `to_human/` | Краткие отчёты в autonomous-режиме |
-| `manuscript/` | Publication track: draft, reviews, revision — [manuscript/README.md](manuscript/README.md) |
+Служебное состояние pipeline — `runtime/state/` (YAML, benchmark JSON, literature outlines, revision log). Шаблоны — `runtime/templates/`.
 
-Схемы: `shared/schemas/`. Агенты: [AGENTS.md](../AGENTS.md), playbooks — `.cursor/agents/playbooks/`.
+Код обучения — `src/`, конфиги — `configs/`. Агенты: [AGENTS.md](../AGENTS.md).

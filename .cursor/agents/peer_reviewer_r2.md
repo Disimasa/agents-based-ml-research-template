@@ -15,7 +15,7 @@ Experiments, baselines, benchmark honesty (M6), negative results.
 
 ## Writes
 
-`reviews.yaml` entry `reviewer_id: R2`.
+`runtime/state/manuscript_reviews.yaml` entry `reviewer_id: R2`.
 
 ## Handoff
 

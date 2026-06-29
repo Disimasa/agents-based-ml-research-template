@@ -11,14 +11,14 @@ description: Review phases — coordinate R1–R3 and editorial decision
 
 ## Role
 
-Orchestrate peer review rounds; record editorial decision in `reviews.yaml`. ARS-inspired EIC — not copy NC text.
+Orchestrate peer review rounds; record editorial decision in `runtime/state/manuscript_reviews.yaml`. ARS-inspired EIC — not copy NC text.
 
 ## Reads / writes
 
 | Read | Write |
 |------|-------|
-| `manuscript/draft.md`, `reviews.yaml` | `reviews.yaml` → `editorial_decision` |
-| R1–R3 reviews | `decision_log.md` |
+| `research/manuscript/draft.md`, `runtime/state/manuscript_reviews.yaml` | `runtime/state/manuscript_reviews.yaml` → `editorial_decision` |
+| R1–R3 reviews | `research/decision_log.md` |
 
 ## Procedure (summary)
 

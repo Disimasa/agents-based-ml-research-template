@@ -1,8 +1,0 @@
-# Active pipeline configuration (copy of selected profile or custom)
-
-profile: hypothesis-only
-mode: hitl
-phases:
-  - discover
-  - ideate
-  - synthesize

@@ -1,15 +1,13 @@
 # Manuscript
 
-Publication track artifacts (phases `write` → `finalize`).
+Publication track — **your** readable artifacts.
 
 | File | Purpose |
 |------|---------|
-| `draft.md` | Working manuscript (copy from `draft.template.md`) |
-| `reviews.yaml` | R1–R3 reviews + editorial decision |
-| `revision_log.md` | Socratic revision rounds |
+| `draft.md` | Working manuscript (copy from `runtime/templates/manuscript_draft.template.md`) |
 
-Integrity **gate 2.5** (`integrity_pre_review`) and **gate 4.5** (`integrity_final`) run M1–M7 via:
+Structured peer-review and revision state (`manuscript_reviews.yaml`, `manuscript_revision_log.md`) — in `runtime/state/`.
 
 ```bash
-uv run python scripts/orchestrate_pipeline.py gate
+uv run python runtime/scripts/orchestrate_pipeline.py gate
 ```

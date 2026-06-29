@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 import sys
 
-from src.utils.integrity import run_integrity_check
+from runtime.utils.integrity import run_integrity_check
 
 
 def main() -> int:

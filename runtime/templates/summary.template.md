@@ -4,7 +4,7 @@ Written by skill `log-decision` / agent `research_manager`.
 
 ## Research question
 
-(from `research/passport.yaml`)
+(from `runtime/state/passport.yaml`)
 
 ## Phases completed
 

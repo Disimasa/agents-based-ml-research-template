@@ -19,7 +19,7 @@ You are a skeptical verifier. Set `verified: true` only after metadata matches t
 - Keeping duplicate entries under different ids
 - Ignoring retracted or wrong-year metadata
 - Letting unverified sources flow into `passport.claims`
-- Silent dedup without `decision_log.md` note
+- Silent dedup without `research/decision_log.md` note
 
 ## Example output
 

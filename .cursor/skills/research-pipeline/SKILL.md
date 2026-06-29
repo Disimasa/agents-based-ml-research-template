@@ -19,7 +19,7 @@ description: Meta orchestrator — route modular phases by profile and mode (hit
 If the user message matches `full-autonomy-intent` (see `.cursor/rules/full-autonomy-intent.mdc`):
 
 ```bash
-uv run python scripts/orchestrate_pipeline.py apply-profile --name full-autonomous
+uv run python runtime/scripts/orchestrate_pipeline.py apply-profile --name full-autonomous
 ```
 
 Set `mode: autonomous`, fill `research_question` and `autonomous.metric_primary`, then run phases until synthesize. On execute use `autonomous-loop`. Log to `research/to_human/summary.md`.
@@ -35,8 +35,8 @@ Set `mode: autonomous`, fill `research_question` and `autonomous.metric_primary`
 
 ## Startup
 
-1. Read `research/research_state.yaml`, `research/pipeline.yaml`, `research/pipeline_profiles.yaml`
-2. Run `uv run python scripts/orchestrate_pipeline.py status`
+1. Read `runtime/state/research_state.yaml`, `runtime/state/pipeline.yaml`, `runtime/state/pipeline_profiles.yaml`
+2. Run `uv run python runtime/scripts/orchestrate_pipeline.py status`
 3. Resolve profile → `phases_enabled[]`
 4. Confirm `mode` (`hitl` | `autonomous`)
 5. Find `current_phase` in enabled list
@@ -44,12 +44,12 @@ Set `mode: autonomous`, fill `research_question` and `autonomous.metric_primary`
 ## Orchestrator CLI
 
 ```bash
-uv run python scripts/orchestrate_pipeline.py status    # where am I?
-uv run python scripts/orchestrate_pipeline.py apply-profile --name full-hitl
-uv run python scripts/orchestrate_pipeline.py pipeline-profiles
-uv run python scripts/orchestrate_pipeline.py gate      # schema + phase-aware M1–M7
-uv run python scripts/orchestrate_pipeline.py approve --by human
-uv run python scripts/orchestrate_pipeline.py advance   # next phase (after gate PASS)
+uv run python runtime/scripts/orchestrate_pipeline.py status    # where am I?
+uv run python runtime/scripts/orchestrate_pipeline.py apply-profile --name full-hitl
+uv run python runtime/scripts/orchestrate_pipeline.py pipeline-profiles
+uv run python runtime/scripts/orchestrate_pipeline.py gate      # schema + phase-aware M1–M7
+uv run python runtime/scripts/orchestrate_pipeline.py approve --by human
+uv run python runtime/scripts/orchestrate_pipeline.py advance   # next phase (after gate PASS)
 ```
 
 After `advance`, invoke the printed skill + agent for the new phase.
@@ -80,7 +80,7 @@ Skip phases not in `phases_enabled`.
 Before invoking phase skill for **execute** or **analyze**:
 
 1. Skill **`orchestra-routing`** (read `.cursor/orchestra/SKILLS_MAP.yaml`).
-2. `uv run python scripts/orchestra_route.py resolve <phase> <task>`  
+2. `uv run python runtime/scripts/orchestra_route.py resolve <phase> <task>`  
    - execute → `train` or `train_autonomous`  
    - analyze → `eval`
 3. Use resolved Orchestra skill or `template_fallback` from the map.
@@ -93,7 +93,7 @@ After each phase:
 1. Run `integrity-check` (micro-gate)
 2. **HITL** (`pipeline-mode` rule):
    - Set `pending_approval: true`
-   - **STOP** — do not call next phase skill until `approved_by: human` in `research_state.yaml`
+   - **STOP** — do not call next phase skill until `approved_by: human` in `runtime/state/research_state.yaml`
 3. **Autonomous**:
    - If gate PASS: `approved_by: ai`, `pending_approval: false`, advance
    - On execute: delegate to `autonomous-loop` until stop conditions
@@ -101,7 +101,7 @@ After each phase:
 ## State updates
 
 ```yaml
-# research/research_state.yaml
+# runtime/state/research_state.yaml
 current_phase: ideate
 pending_approval: true
 approved_by: null
@@ -117,7 +117,7 @@ approved_at: "2026-06-27T12:00:00Z"
 current_phase: plan  # next enabled phase
 ```
 
-Sync `research/passport.yaml` → `phase: <current_phase>`.
+Sync `runtime/state/passport.yaml` → `phase: <current_phase>`.
 
 ## Profile quick reference
 
@@ -142,11 +142,11 @@ Use Cursor **Task** tool with subagent when a phase needs deep work:
 - ideate → generalPurpose + hypothesis_generator context
 - execute → shell agent for `uv run` (when code exists)
 
-Pass each subagent: current `research_state.yaml`, phase skill path, relevant agent `.md`.
+Pass each subagent: current `runtime/state/research_state.yaml`, phase skill path, relevant agent `.md`.
 
 ## Logging
 
-Every phase transition → `research_manager` entry in `decision_log.md`.
+Every phase transition → `research_manager` entry in `research/decision_log.md`.
 
 ## Do not
 

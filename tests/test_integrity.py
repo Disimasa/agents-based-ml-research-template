@@ -1,6 +1,6 @@
 """Tests for integrity M6/M7 and extended phase order."""
 
-from src.utils.integrity import (
+from runtime.utils.integrity import (
     GATE_PROFILES,
     PHASE_ORDER,
     check_m3_falsifiable_hypotheses,

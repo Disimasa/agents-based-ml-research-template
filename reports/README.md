@@ -1,3 +1,5 @@
-# Figures and analysis reports (not manuscript)
+# Figures and analysis reports (user-facing)
 
-Benchmark JSON: `reports/benchmarks/`.
+Plots, tables, and narrative analysis for your review — not agent pipeline state.
+
+Benchmark JSON for integrity lives in `runtime/state/benchmarks/` (agent-only).

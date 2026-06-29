@@ -6,7 +6,7 @@ alwaysApply: false
 
 # Paper–code consistency
 
-- Every results claim in `research/` must reference an `experiment_id` in `experiment_provenance.yaml`.
+- Every results claim in `research/` must reference an `experiment_id` in `runtime/state/experiment_provenance.yaml`.
 - Before asserting "we implemented X", grep `src/` and `configs/model/` for evidence.
 - Model names in `methodology.md` must match Hydra config files under `configs/`.
 - If code is still a stub, state that explicitly — do not imply experiments ran.

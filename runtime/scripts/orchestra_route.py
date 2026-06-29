@@ -6,7 +6,7 @@ import argparse
 import json
 import sys
 
-from src.utils.orchestra_route import (
+from runtime.utils.orchestra_route import (
     installed_orchestra_skills,
     list_routes,
     load_skills_map,

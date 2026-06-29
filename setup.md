@@ -1,6 +1,6 @@
 # Project bootstrap
 
-Answer these when starting a new project from this template. Results feed `research/passport.yaml` and `research/research_state.yaml`.
+Answer these when starting a new project from this template. Results feed `runtime/state/passport.yaml` and `runtime/state/research_state.yaml`.
 
 ## Research
 
@@ -44,8 +44,8 @@ Answer these when starting a new project from this template. Results feed `resea
 After filling in, run:
 
 ```bash
-uv run python scripts/orchestrate_pipeline.py apply-profile --name <profile>
-uv run python scripts/orchestrate_pipeline.py status
+uv run python runtime/scripts/orchestrate_pipeline.py apply-profile --name <profile>
+uv run python runtime/scripts/orchestrate_pipeline.py status
 ```
 
 Or ask the agent to run skill **`new-project`** (updates passport + state from your answers).

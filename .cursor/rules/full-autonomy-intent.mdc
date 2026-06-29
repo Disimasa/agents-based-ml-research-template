@@ -29,10 +29,10 @@ Any of these (alone or combined) → **full-autonomous** + `mode: autonomous`:
 1. Log intent in `research/decision_log.md` (`action: full_autonomy_intent`).
 2. Apply profile:
    ```bash
-   uv run python scripts/orchestrate_pipeline.py apply-profile --name full-autonomous
+   uv run python runtime/scripts/orchestrate_pipeline.py apply-profile --name full-autonomous
    ```
-3. Set `research/passport.yaml` → `research_question` from the user message (one falsifiable sentence).
-4. Set `research_state.yaml` → `mode: autonomous`, fill `autonomous.metric_primary` if known or infer from domain; else pick a reasonable default and note in `to_human/`.
+3. Set `runtime/state/passport.yaml` → `research_question` from the user message (one falsifiable sentence).
+4. Set `runtime/state/research_state.yaml` → `mode: autonomous`, fill `autonomous.metric_primary` if known or infer from domain; else pick a reasonable default and note in `research/to_human/`.
 5. Invoke skill **`research-pipeline`** and run phases in order until synthesize (or stop conditions on execute).
 6. On **execute**: write `src/train.py` / `src/modeling/` as needed; use **`autonomous-loop`**; `approve --by ai` between phases when gate PASS.
 7. Write progress to `research/to_human/summary.md` each major step.

@@ -2,7 +2,8 @@
 
 from pathlib import Path
 
-AGENTS = Path(__file__).resolve().parents[1] / ".cursor" / "agents"
+ROOT = Path(__file__).resolve().parents[2]
+AGENTS = ROOT / ".cursor" / "agents"
 
 
 def main() -> None:

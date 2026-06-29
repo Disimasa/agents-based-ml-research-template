@@ -15,7 +15,7 @@ Significance, literature gaps (M1), hypothesis fit, overstated claims.
 
 ## Writes
 
-`reviews.yaml` entry `reviewer_id: R3`.
+`runtime/state/manuscript_reviews.yaml` entry `reviewer_id: R3`.
 
 ## Handoff
 

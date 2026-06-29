@@ -17,8 +17,8 @@ Produce `research/manuscript/draft.md` from research state. Tag every experiment
 
 | Read | Write |
 |------|-------|
-| `passport.yaml`, `methodology.md`, `reports/benchmarks/` | `manuscript/draft.md` |
-| `experiment_provenance.yaml` | `passport.write_status` |
+| `runtime/state/passport.yaml`, `research/methodology.md`, `runtime/state/benchmarks/` | `research/manuscript/draft.md` |
+| `runtime/state/experiment_provenance.yaml` | `runtime/state/passport.yaml` → `write_status` |
 
 ## Gates
 

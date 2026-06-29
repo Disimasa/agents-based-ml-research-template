@@ -20,7 +20,7 @@ description: Review and re_review phases — R1–R3 peer review + EIC decision
    - R1: methods / reproducibility (M4, M5)
    - R2: experiments / benchmarks (M6)
    - R3: significance / literature (M1)
-2. Each reviewer appends to `research/manuscript/reviews.yaml`:
+2. Each reviewer appends to `runtime/state/manuscript_reviews.yaml`:
 
 ```yaml
 reviews:
@@ -38,14 +38,14 @@ reviews:
 
 ### Round 2+ (`re_review`)
 
-- After `revise` + `revision_log.md` updates
+- After `revise` + `runtime/state/manuscript_revision_log.md` updates
 - R1–R3 check only prior major points
 - EIC updates decision; accept → `integrity_final`
 
 ## Anti-patterns
 
 - Accept with open M6/M7 failures
-- Reviews without reading `draft.md` and provenance
+- Reviews without reading `research/manuscript/draft.md` and provenance
 
 ## Handoff
 

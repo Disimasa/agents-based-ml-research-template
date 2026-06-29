@@ -15,8 +15,8 @@ description: Plan phase — methodology, ethics review, and experiment intake de
 
 ## Prerequisites
 
-- Selected hypothesis in `research/hypotheses.yaml` (`status: selected`)
-- `research/passport.yaml`
+- Selected hypothesis in `runtime/state/hypotheses.yaml` (`status: selected`)
+- `runtime/state/passport.yaml`
 
 ## Steps
 
@@ -45,7 +45,7 @@ Create **config filename stubs only** if execute approved — do not implement t
 
 ### 3. Devil's advocate (plan)
 
-Challenge baselines, metric choice, sample size; log in `decision_log.md`.
+Challenge baselines, metric choice, sample size; log in `research/decision_log.md`.
 
 ### 4. Ethics reviewer checklist
 

@@ -15,17 +15,18 @@ description: Discover phase — structured literature search with outline, field
 
 ## Prerequisites
 
-- `research/passport.yaml` with `research_question`
-- Template: `research/literature/_example/`
+- `runtime/state/passport.yaml` with `research_question`
+- Template: `runtime/templates/literature_example/`
 
 ## Steps
 
 ### 1. Scope
 
 - Choose `topic_slug` (e.g. `contrastive_reranking`)
-- Create `research/literature/{topic_slug}/`
+- Create agent state: `runtime/state/literature/{topic_slug}/`
+- Create user output: `research/literature/{topic_slug}/results/`
 
-### 2. Outline (`outline.yaml`)
+### 2. Outline (`runtime/state/literature/{topic}/outline.yaml`)
 
 ```yaml
 topic: <topic_slug>
@@ -37,10 +38,10 @@ items:
 execution:
   batch_size: 5
   items_per_agent: 1
-  output_dir: ./results
+  output_dir: research/literature/<topic_slug>/results
 ```
 
-### 3. Fields (`fields.yaml`)
+### 3. Fields (`runtime/state/literature/{topic}/fields.yaml`)
 
 Define extraction schema per paper:
 
@@ -57,9 +58,9 @@ fields:
     detail_level: brief
 ```
 
-### 4. Search and record (`results/*.json`)
+### 4. Search and record (`research/literature/{topic}/results/*.json`)
 
-Per source batch, write JSON:
+Per source batch, write JSON (user-facing source cards):
 
 ```json
 {
@@ -77,12 +78,12 @@ Per source batch, write JSON:
 ### 5. Verify (`source_verifier`)
 
 - Set `verified: true` only after DOI/URL check
-- Deduplicate; log rejections in `decision_log.md`
+- Deduplicate; log rejections in `research/decision_log.md`
 
 ### 6. Synthesize gaps (`synthesis_agent`)
 
-- Optional `research/literature/{topic}/README.md` — gaps and trends
-- Update `passport.claims[]` only from verified sources
+- Optional `research/literature/{topic}/README.md` — gaps and trends for the user
+- Update `runtime/state/passport.yaml` `claims[]` only from verified sources
 
 ### 7. State update
 

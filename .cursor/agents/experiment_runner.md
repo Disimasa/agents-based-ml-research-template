@@ -33,7 +33,7 @@ experiments:
 
 ## Procedure
 
-0. **`orchestra-routing`** → `scripts/orchestra_route.py resolve execute train`.
+0. **`orchestra-routing`** → `runtime/scripts/orchestra_route.py resolve execute train`.
 1. Confirm `experiments_declared` and ethics PASS.
 2. `uv sync --extra torch` or `--extra ml`.
 3. Run `uv run python src/train.py experiment=<name> logger=csv`.
@@ -41,14 +41,14 @@ experiments:
 5. If stub: log `blocked_stub`; do not claim success.
 6. Update `planned_vs_executed`.
 7. Hand to `implementation_reviewer`.
-8. Log in `decision_log.md`.
+8. Log in `research/decision_log.md`.
 
 ## Orchestra bridge
 
 Read `.cursor/orchestra/SKILLS_MAP.yaml` via skill **`orchestra-routing`**:
 
 ```bash
-uv run python scripts/orchestra_route.py resolve analyze eval
+uv run python runtime/scripts/orchestra_route.py resolve analyze eval
 ```
 
 Optional validate: **`experiment-agent-bridge`** (CC BY-NC opt-in).

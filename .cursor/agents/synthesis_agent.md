@@ -37,7 +37,7 @@ Synthesize verified literature into gaps and implications. In discover, seed ide
 3. Optional `literature/{topic}/README.md` executive summary.
 4. Update `passport.claims` with `source_id` refs (discover).
 5. At synthesize: merge provenance + benchmarks into final claims.
-6. Log conclusions in `decision_log.md`.
+6. Log conclusions in `research/decision_log.md`.
 7. Run full `integrity_check.py`.
 8. Support `log-decision` human summary.
 

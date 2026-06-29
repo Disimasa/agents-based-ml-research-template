@@ -26,7 +26,7 @@ description: Execute phase (HITL) — single Hydra experiment with provenance lo
 ### 0. Route (Orchestra or template)
 
 ```bash
-uv run python scripts/orchestra_route.py resolve execute train
+uv run python runtime/scripts/orchestra_route.py resolve execute train
 ```
 
 - If Orchestra skill available → follow `.cursor/skills/orchestra/<name>/SKILL.md`
@@ -49,7 +49,7 @@ Hydra outputs → `outputs/` (gitignored).
 
 ### 3. Record provenance
 
-Append to `research/experiment_provenance.yaml`:
+Append to `runtime/state/experiment_provenance.yaml`:
 
 ```yaml
 experiments:
@@ -74,7 +74,7 @@ experiments:
 ### 5. Gate
 
 - HITL: one run per approval; update `pending_approval` between runs
-- Log via `research_manager` → `decision_log.md`
+- Log via `research_manager` → `research/decision_log.md`
 
 ## Handoff
 

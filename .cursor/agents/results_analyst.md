@@ -23,15 +23,15 @@ Build honest benchmark JSON from real logs only. Document negative/null results.
 
 ## Example output
 
-`reports/benchmarks/exp_001.json` with `primary_metric.status: not_executed` when stub blocked.
+`runtime/state/benchmarks/exp_001.json` with `primary_metric.status: not_executed` when stub blocked.
 
 ## Procedure
 
 1. Collect metrics from `outputs/`, W&B, csv logs only.
-2. Write `reports/benchmarks/{experiment_id}.json` per schema.
-3. Update provenance `negative_results`, `known_limitations`.
-4. Set hypothesis `status: tested` when appropriate.
-5. Update `passport.claims` with evidence paths.
+2. Write `runtime/state/benchmarks/{experiment_id}.json` per schema.
+3. Update `runtime/state/experiment_provenance.yaml` (`negative_results`, `known_limitations`).
+4. Set hypothesis `status: tested` in `runtime/state/hypotheses.yaml` when appropriate.
+5. Update `runtime/state/passport.yaml` `claims` with evidence paths.
 6. Run `integrity_check.py --modes M2 M4`.
 7. HITL: present comparison table.
 8. Hand off to synthesize.

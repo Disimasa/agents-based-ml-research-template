@@ -7,8 +7,20 @@ from pathlib import Path
 import pytest
 import yaml
 
-from src.utils.integrity import autonomous_preflight, can_advance, next_phase, run_integrity_check
-from src.utils.pipeline import apply_pipeline_profile
+from runtime.utils.integrity import (
+    autonomous_preflight,
+    can_advance,
+    next_phase,
+    run_integrity_check,
+)
+from runtime.utils.pipeline import apply_pipeline_profile
+
+
+def _patch_state_dir(monkeypatch: pytest.MonkeyPatch, state_dir: Path) -> None:
+    monkeypatch.setattr("runtime.utils.integrity.STATE_DIR", state_dir)
+    monkeypatch.setattr("runtime.utils.pipeline.STATE_PATH", state_dir / "research_state.yaml")
+    monkeypatch.setattr("runtime.utils.pipeline.PIPELINE_CONFIG_PATH", state_dir / "pipeline.yaml")
+    monkeypatch.setattr("runtime.utils.pipeline.PASSPORT_PATH", state_dir / "passport.yaml")
 
 
 def test_next_phase_from_discover() -> None:
@@ -47,15 +59,15 @@ def test_can_advance_hitl_after_human_approve() -> None:
 
 
 def test_apply_full_hitl_starts_bootstrap(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
-    research = tmp_path / "research"
-    research.mkdir()
-    profiles_src = Path("research/pipeline_profiles.yaml").read_text(encoding="utf-8")
-    (research / "pipeline_profiles.yaml").write_text(profiles_src, encoding="utf-8")
-    (research / "research_state.yaml").write_text(
+    state_dir = tmp_path / "state"
+    state_dir.mkdir()
+    profiles_src = Path("runtime/state/pipeline_profiles.yaml").read_text(encoding="utf-8")
+    (state_dir / "pipeline_profiles.yaml").write_text(profiles_src, encoding="utf-8")
+    (state_dir / "research_state.yaml").write_text(
         yaml.safe_dump({"current_phase": "discover"}), encoding="utf-8"
     )
-    (research / "pipeline.yaml").write_text("profile: x\n", encoding="utf-8")
-    (research / "passport.yaml").write_text(
+    (state_dir / "pipeline.yaml").write_text("profile: x\n", encoding="utf-8")
+    (state_dir / "passport.yaml").write_text(
         yaml.safe_dump(
             {
                 "research_question": None,
@@ -65,19 +77,12 @@ def test_apply_full_hitl_starts_bootstrap(tmp_path: Path, monkeypatch: pytest.Mo
         ),
         encoding="utf-8",
     )
-    for name in (
-        "hypotheses.yaml",
-        "experiment_provenance.yaml",
-    ):
-        src = Path("research") / name
+    for name in ("hypotheses.yaml", "experiment_provenance.yaml"):
+        src = Path("runtime/state") / name
         if src.exists():
-            (research / name).write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
+            (state_dir / name).write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
 
-    monkeypatch.setattr("src.utils.pipeline.RESEARCH_DIR", research)
-    monkeypatch.setattr("src.utils.pipeline.STATE_PATH", research / "research_state.yaml")
-    monkeypatch.setattr("src.utils.pipeline.PIPELINE_CONFIG_PATH", research / "pipeline.yaml")
-    monkeypatch.setattr("src.utils.pipeline.PASSPORT_PATH", research / "passport.yaml")
-    monkeypatch.setattr("src.utils.integrity.RESEARCH_DIR", research)
+    _patch_state_dir(monkeypatch, state_dir)
 
     result = apply_pipeline_profile("full-hitl")
     assert result["current_phase"] == "bootstrap"
@@ -102,12 +107,12 @@ def test_autonomous_preflight_requires_research_question() -> None:
 def test_autonomous_preflight_requires_metric_on_execute(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    research = tmp_path / "research"
-    research.mkdir()
-    (research / "passport.yaml").write_text(
+    state_dir = tmp_path / "state"
+    state_dir.mkdir()
+    (state_dir / "passport.yaml").write_text(
         yaml.safe_dump({"research_question": "Does X improve Y?"}), encoding="utf-8"
     )
-    monkeypatch.setattr("src.utils.integrity.RESEARCH_DIR", research)
+    monkeypatch.setattr("runtime.utils.integrity.STATE_DIR", state_dir)
 
     state = {
         "mode": "autonomous",

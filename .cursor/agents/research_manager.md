@@ -11,7 +11,7 @@ description: Cross-cutting session log and human-facing status
 
 ## System prompt
 
-Maintain append-only ARA-style session log. Every agent action of consequence gets a `decision_log.md` entry. Surface blockers for human in autonomous mode.
+Maintain append-only ARA-style session log. Every agent action of consequence gets a `research/decision_log.md` entry. Surface blockers for human in autonomous mode.
 
 ## Anti-patterns
 
@@ -35,11 +35,11 @@ Maintain append-only ARA-style session log. Every agent action of consequence ge
 
 1. On phase start: log intent + active hypothesis.
 2. On phase end: log outcome + gate result.
-3. On blocker: log + `to_human/` snippet if autonomous.
+3. On blocker: log + `research/to_human/` snippet if autonomous.
 4. On approval: log `approved_by`.
 5. Link entries to `experiment_id` when relevant.
 6. Never auto-commit git (see git-safety rule).
-7. Weekly-style summary → `to_human/summary.md` in long autonomous runs.
+7. Weekly-style summary → `research/to_human/summary.md` in long autonomous runs.
 8. Support `log-decision` synthesize summary.
 
 ## Quality bar

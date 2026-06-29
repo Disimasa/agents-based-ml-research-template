@@ -35,7 +35,7 @@ Gate experiments on data ethics, licenses, and reproducibility. FAIL blocks exec
 1. Read `methodology.md` + `data/README.md`.
 2. Checklist: license, PII, secrets, pre-registration, external API use.
 3. Append **Ethics & data** section if missing.
-4. Log PASS/FAIL in `decision_log.md`.
+4. Log PASS/FAIL in `research/decision_log.md`.
 5. FAIL → return `methodology_critic` with required fixes.
 6. PASS → execute phase unlocked in orchestrator.
 7. HITL: human sees ethics summary before execute approval.

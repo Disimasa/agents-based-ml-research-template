@@ -22,7 +22,7 @@ Template ships **own** `.cursor/agents/` + `.cursor/skills/` (MIT). External rep
 | discover | `literature-survey` | Orchestra paper-search (MIT); [Deep-Research-skills](https://github.com/Weizhena/Deep-Research-skills); K-Dense (MIT) |
 | ideate | `hypothesis-ideation` | Orchestra hypothesis-generation (MIT) |
 | plan | `research-plan` | K-Dense scientific brainstorming (MIT) |
-| execute | `orchestra-routing` → `run-experiment`, `autonomous-loop` | [Orchestra AI-Research-SKILLs](https://github.com/Orchestra-Research/AI-Research-SKILLs) — PEFT, TRL, W&B (MIT); [experiment-agent](https://github.com/Imbad0202/experiment-agent) (CC BY-NC) |
+| execute | `orchestra-routing` → `run-experiment`, `autonomous-loop` | [Orchestra AI-Research-SKILLs](https://github.com/Orchestra-research/AI-Research-SKILLs) — PEFT, TRL, W&B (MIT); [experiment-agent](https://github.com/Imbad0202/experiment-agent) (CC BY-NC) |
 | analyze | `orchestra-routing` → `analyze-results` | Orchestra lm-eval, wandb (MIT) |
 | synthesize | `log-decision`, `integrity-check` | — |
 | write | `manuscript-draft` | — (template MIT skills) |
@@ -34,7 +34,7 @@ Optional NC alternative for write/review ideas only: [academic-research-skills](
 ## Orchestra bridge (execute / analyze)
 
 1. Skill **`orchestra-routing`** reads `.cursor/orchestra/SKILLS_MAP.yaml`.
-2. `uv run python scripts/orchestra_route.py resolve execute train`
+2. `uv run python runtime/scripts/orchestra_route.py resolve execute train`
 3. If Orchestra skill installed in `.cursor/skills/orchestra/` → use it; else template `run-experiment`.
 4. Optional validate: skill **`experiment-agent-bridge`** + [experiment-agent](https://github.com/Imbad0202/experiment-agent) (CC BY-NC).
 5. Always: provenance + `integrity-check` + HITL gates.

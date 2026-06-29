@@ -5,6 +5,7 @@ CCDS + Hydra + modular AI research pipeline for Cursor.
 - **AI entry:** [AGENTS.md](AGENTS.md)
 - **Research state:** [research/README.md](research/README.md)
 - **Optional Orchestra skills:** [docs/ORCHESTRA_INSTALL.md](docs/ORCHESTRA_INSTALL.md)
+- **Template runtime:** [runtime/README.md](runtime/README.md) — orchestrator, schemas, validation (internal)
 
 ## Quick start
 
@@ -19,16 +20,16 @@ uv sync --group dev   # ruff, pytest, validate
 2. In Cursor: ask the agent to run skill **`new-project`**, or apply a profile directly:
 
 ```bash
-uv run python scripts/orchestrate_pipeline.py apply-profile --name hypothesis-only
-uv run python scripts/orchestrate_pipeline.py status
+uv run python runtime/scripts/orchestrate_pipeline.py apply-profile --name hypothesis-only
+uv run python runtime/scripts/orchestrate_pipeline.py status
 ```
 
 ### 2. Run the pipeline
 
 ```bash
-uv run python scripts/orchestrate_pipeline.py gate
-uv run python scripts/orchestrate_pipeline.py approve --by human
-uv run python scripts/orchestrate_pipeline.py advance
+uv run python runtime/scripts/orchestrate_pipeline.py gate
+uv run python runtime/scripts/orchestrate_pipeline.py approve --by human
+uv run python runtime/scripts/orchestrate_pipeline.py advance
 ```
 
 After `advance`, invoke the printed skill + agent for the new phase (or ask the AI: `/research-pipeline`).
@@ -36,12 +37,12 @@ After `advance`, invoke the printed skill + agent for the new phase (or ask the 
 ### 3. Profiles
 
 ```bash
-uv run python scripts/orchestrate_pipeline.py pipeline-profiles
-uv run python scripts/orchestrate_pipeline.py apply-profile --name full-hitl
-uv run python scripts/orchestrate_pipeline.py apply-profile --name full-publication
+uv run python runtime/scripts/orchestrate_pipeline.py pipeline-profiles
+uv run python runtime/scripts/orchestrate_pipeline.py apply-profile --name full-hitl
+uv run python runtime/scripts/orchestrate_pipeline.py apply-profile --name full-publication
 ```
 
-Presets live in `research/pipeline_profiles.yaml`.
+Presets live in `runtime/state/pipeline_profiles.yaml`.
 
 ### One-shot full research (autonomous)
 
@@ -57,7 +58,7 @@ The agent applies rule `full-autonomy-intent` → profile `full-autonomous`, mod
 
 - Hydra configs: `configs/train.yaml`, `configs/experiment/*.yaml`
 - Skill: `.cursor/skills/run-experiment/SKILL.md`
-- If code is not ready: log `status: blocked_stub` in `research/experiment_provenance.yaml` — never fabricate metrics
+- If code is not ready: log `status: blocked_stub` in `runtime/state/experiment_provenance.yaml` — never fabricate metrics
 
 Optional ML stack:
 
@@ -72,15 +73,15 @@ uv sync --extra mlflow
 External MIT skills for W&B, PEFT, lm-eval, etc. — not bundled. Install **per task** when the agent needs them; see [docs/ORCHESTRA_INSTALL.md](docs/ORCHESTRA_INSTALL.md).
 
 ```bash
-uv run python scripts/orchestra_route.py list
+uv run python runtime/scripts/orchestra_route.py list
 ```
 
 ## Validate & integrity
 
 ```bash
-uv run python scripts/validate_research.py
-uv run python scripts/integrity_check.py --phase integrity_pre_review
-uv run ruff check src tests scripts
+uv run python runtime/scripts/validate_research.py
+uv run python runtime/scripts/integrity_check.py --phase integrity_pre_review
+uv run ruff check src tests runtime
 uv run pytest tests -q
 ```
 

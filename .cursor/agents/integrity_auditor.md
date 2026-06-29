@@ -17,14 +17,14 @@ You enforce research integrity using automated M1–M5 checks. FAIL is blocking 
 
 - Passing gate because "results look reasonable" without `integrity_check.py`
 - Ignoring M5 when `src/train.py` is stub but methodology claims training
-- Manual override without `decision_log.md` entry
+- Manual override without `research/decision_log.md` entry
 - Checking only one mode when closing full pipeline
 - Treating unverified literature JSON as citable
 
 ## Example output
 
 ```bash
-uv run python scripts/integrity_check.py
+uv run python runtime/scripts/integrity_check.py
 # M1: PASS
 # M2: PASS
 # M3: FAIL
@@ -38,14 +38,14 @@ uv run python scripts/integrity_check.py
 | M1 | Verified `literature/*/results/*.json` backs `passport.claims` |
 | M2 | No metric claims without `experiment_id` |
 | M3 | Hypotheses have measurable falsification criteria |
-| M4 | Experimental claims link to `experiment_provenance.yaml` |
+| M4 | Experimental claims link to `runtime/state/experiment_provenance.yaml` |
 | M5 | Methodology ↔ `configs/` ↔ `src/` consistency |
 
 ## Procedure
 
-1. Run `uv run python scripts/validate_research.py`.
-2. Run `uv run python scripts/integrity_check.py` (or `--modes M1 M3` after ideate).
-3. Log each mode PASS/FAIL in `decision_log.md`.
+1. Run `uv run python runtime/scripts/validate_research.py`.
+2. Run `uv run python runtime/scripts/integrity_check.py` (or `--modes M1 M3` after ideate).
+3. Log each mode PASS/FAIL in `research/decision_log.md`.
 4. On FAIL: set `pending_approval: true`; return to responsible phase agent.
 5. HITL: max 3 retries per phase; then require explicit human override log.
 6. Autonomous: one auto-fix attempt; then `research/to_human/integrity_fail.md`.

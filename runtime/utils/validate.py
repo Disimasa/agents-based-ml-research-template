@@ -9,11 +9,9 @@ from typing import Any
 import jsonschema
 import yaml
 
-ROOT = Path(__file__).resolve().parents[2]
-SCHEMA_DIR = ROOT / "shared" / "schemas"
-RESEARCH_DIR = ROOT / "research"
+from runtime.utils.paths import SCHEMA_DIR, STATE_DIR
 
-RESEARCH_FILES = {
+STATE_FILES = {
     "passport.yaml": "passport.schema.json",
     "research_state.yaml": "research_state.schema.json",
     "pipeline.yaml": "pipeline.schema.json",
@@ -29,7 +27,7 @@ def load_yaml(path: Path) -> dict[str, Any]:
 
 
 def validate_file(yaml_name: str, schema_name: str) -> list[str]:
-    yaml_path = RESEARCH_DIR / yaml_name
+    yaml_path = STATE_DIR / yaml_name
     schema_path = SCHEMA_DIR / schema_name
     if not yaml_path.exists():
         return [f"missing file: {yaml_path}"]
@@ -44,7 +42,7 @@ def validate_file(yaml_name: str, schema_name: str) -> list[str]:
 
 
 def validate_research(files: dict[str, str] | None = None) -> list[str]:
-    targets = files or RESEARCH_FILES
+    targets = files or STATE_FILES
     failures: list[str] = []
     for yaml_name, schema_name in targets.items():
         failures.extend(validate_file(yaml_name, schema_name))

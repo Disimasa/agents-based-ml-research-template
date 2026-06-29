@@ -8,4 +8,4 @@ alwaysApply: false
 
 - Never hardcode experiment metrics in `research/` or `reports/`.
 - Mark uncertain claims with `[uncertain]`.
-- Claims must link to `experiment_id` in provenance when stating results.
+- Claims must link to `experiment_id` in `runtime/state/experiment_provenance.yaml` when stating results.

@@ -10,13 +10,11 @@ from typing import Any
 
 import jsonschema
 
-from src.utils.validate import load_yaml
+from runtime.utils.paths import BENCHMARKS_DIR, RESEARCH_DIR, ROOT, SCHEMA_DIR, STATE_DIR
+from runtime.utils.validate import load_yaml
 
-ROOT = Path(__file__).resolve().parents[2]
-RESEARCH_DIR = ROOT / "research"
-REPORTS_DIR = ROOT / "reports" / "benchmarks"
 MANUSCRIPT_DIR = RESEARCH_DIR / "manuscript"
-BENCHMARK_SCHEMA_PATH = ROOT / "shared" / "schemas" / "benchmark_report.schema.json"
+BENCHMARK_SCHEMA_PATH = SCHEMA_DIR / "benchmark_report.schema.json"
 
 PHASE_ORDER = [
     "bootstrap",
@@ -35,7 +33,6 @@ PHASE_ORDER = [
     "finalize",
 ]
 
-# ARS-style gate profiles: 2.5 (pre-review) and 4.5 (pre-finalize) use full M1–M7.
 GATE_PROFILES: dict[str, list[str]] = {
     "research_default": ["M1", "M2", "M3", "M4", "M5"],
     "gate_2_5_pre_review": ["M1", "M2", "M3", "M4", "M5", "M6", "M7"],
@@ -121,7 +118,7 @@ def _load_verified_source_ids() -> set[str]:
 
 def check_m1_source_traceability() -> ModeResult:
     findings: list[str] = []
-    passport = load_yaml(RESEARCH_DIR / "passport.yaml")
+    passport = load_yaml(STATE_DIR / "passport.yaml")
     verified_ids = _load_verified_source_ids()
     claims = passport.get("claims") or []
 
@@ -142,7 +139,7 @@ def check_m1_source_traceability() -> ModeResult:
 
 def check_m2_no_fabricated_metrics() -> ModeResult:
     findings: list[str] = []
-    provenance = load_yaml(RESEARCH_DIR / "experiment_provenance.yaml")
+    provenance = load_yaml(STATE_DIR / "experiment_provenance.yaml")
     experiment_ids = {
         str(item.get("experiment_id"))
         for item in (provenance.get("experiments") or [])
@@ -150,10 +147,10 @@ def check_m2_no_fabricated_metrics() -> ModeResult:
     }
 
     scan_paths = list(RESEARCH_DIR.rglob("*.md")) + list(RESEARCH_DIR.rglob("*.yaml"))
-    scan_paths.extend(REPORTS_DIR.glob("*.json") if REPORTS_DIR.exists() else [])
+    scan_paths.extend(BENCHMARKS_DIR.glob("*.json") if BENCHMARKS_DIR.exists() else [])
 
     for path in scan_paths:
-        if path.name in {"pipeline_profiles.yaml", "reviews.yaml"}:
+        if path.name in {"reviews.yaml", "manuscript_reviews.yaml"}:
             continue
         text = path.read_text(encoding="utf-8", errors="ignore")
         if not METRIC_PATTERN.search(text):
@@ -170,7 +167,7 @@ def check_m2_no_fabricated_metrics() -> ModeResult:
 
 def check_m3_falsifiable_hypotheses() -> ModeResult:
     findings: list[str] = []
-    data = load_yaml(RESEARCH_DIR / "hypotheses.yaml")
+    data = load_yaml(STATE_DIR / "hypotheses.yaml")
     for hypothesis in data.get("hypotheses") or []:
         if not isinstance(hypothesis, dict):
             continue
@@ -189,8 +186,8 @@ def check_m3_falsifiable_hypotheses() -> ModeResult:
 
 def check_m4_provenance_linkage() -> ModeResult:
     findings: list[str] = []
-    passport = load_yaml(RESEARCH_DIR / "passport.yaml")
-    provenance = load_yaml(RESEARCH_DIR / "experiment_provenance.yaml")
+    passport = load_yaml(STATE_DIR / "passport.yaml")
+    provenance = load_yaml(STATE_DIR / "experiment_provenance.yaml")
     experiment_ids = {
         str(item.get("experiment_id"))
         for item in (provenance.get("experiments") or [])
@@ -247,16 +244,16 @@ def check_m5_paper_code_consistency() -> ModeResult:
 
 def check_m6_benchmark_honesty() -> ModeResult:
     findings: list[str] = []
-    if not REPORTS_DIR.exists():
+    if not BENCHMARKS_DIR.exists():
         return ModeResult("M6", True, [])
 
-    reports = list(REPORTS_DIR.glob("*.json"))
+    reports = list(BENCHMARKS_DIR.glob("*.json"))
     if not reports:
         return ModeResult("M6", True, [])
 
     schema = json.loads(BENCHMARK_SCHEMA_PATH.read_text(encoding="utf-8"))
     validator = jsonschema.Draft202012Validator(schema)
-    provenance = load_yaml(RESEARCH_DIR / "experiment_provenance.yaml")
+    provenance = load_yaml(STATE_DIR / "experiment_provenance.yaml")
     provenance_ids = {
         str(item.get("experiment_id"))
         for item in (provenance.get("experiments") or [])
@@ -307,8 +304,8 @@ def check_m7_manuscript_state_consistency() -> ModeResult:
         return ModeResult("M7", True, [])
 
     draft_text = draft_path.read_text(encoding="utf-8", errors="ignore")
-    passport = load_yaml(RESEARCH_DIR / "passport.yaml")
-    provenance = load_yaml(RESEARCH_DIR / "experiment_provenance.yaml")
+    passport = load_yaml(STATE_DIR / "passport.yaml")
+    provenance = load_yaml(STATE_DIR / "experiment_provenance.yaml")
     experiment_ids = {
         str(item.get("experiment_id"))
         for item in (provenance.get("experiments") or [])
@@ -363,11 +360,11 @@ def run_integrity_check(
 
 
 def load_research_state() -> dict[str, Any]:
-    return load_yaml(RESEARCH_DIR / "research_state.yaml")
+    return load_yaml(STATE_DIR / "research_state.yaml")
 
 
 def load_pipeline_profiles() -> dict[str, Any]:
-    return load_yaml(RESEARCH_DIR / "pipeline_profiles.yaml")
+    return load_yaml(STATE_DIR / "pipeline_profiles.yaml")
 
 
 def next_phase(state: dict[str, Any]) -> str | None:
@@ -420,7 +417,7 @@ def autonomous_preflight(state: dict[str, Any]) -> list[str]:
     current = state.get("current_phase")
     execute_track = "execute" in phases_enabled
 
-    passport = load_yaml(RESEARCH_DIR / "passport.yaml")
+    passport = load_yaml(STATE_DIR / "passport.yaml")
     question = passport.get("research_question")
     if current != "bootstrap" and not (isinstance(question, str) and question.strip()):
         findings.append("autonomous mode requires non-empty passport.research_question")

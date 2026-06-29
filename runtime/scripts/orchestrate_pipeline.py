@@ -8,7 +8,7 @@ from datetime import UTC, datetime
 
 import yaml
 
-from src.utils.integrity import (
+from runtime.utils.integrity import (
     GATE_PROFILES,
     autonomous_preflight,
     can_advance,
@@ -17,8 +17,13 @@ from src.utils.integrity import (
     next_phase,
     run_integrity_check,
 )
-from src.utils.pipeline import apply_pipeline_profile, list_pipeline_profile_names
-from src.utils.validate import RESEARCH_DIR, validate_research
+from runtime.utils.pipeline import (
+    PASSPORT_PATH,
+    STATE_PATH,
+    apply_pipeline_profile,
+    list_pipeline_profile_names,
+)
+from runtime.utils.validate import validate_research
 
 PHASE_SKILLS = {
     "bootstrap": "new-project",
@@ -61,8 +66,7 @@ GATE_LABELS = {
 
 
 def _write_state(state: dict) -> None:
-    path = RESEARCH_DIR / "research_state.yaml"
-    with path.open("w", encoding="utf-8") as handle:
+    with STATE_PATH.open("w", encoding="utf-8") as handle:
         yaml.safe_dump(state, handle, sort_keys=False, allow_unicode=True)
 
 
@@ -170,11 +174,10 @@ def cmd_advance() -> int:
     state["approved_at"] = None
     _write_state(state)
 
-    passport_path = RESEARCH_DIR / "passport.yaml"
-    if passport_path.exists():
-        passport = yaml.safe_load(passport_path.read_text(encoding="utf-8")) or {}
+    if PASSPORT_PATH.exists():
+        passport = yaml.safe_load(PASSPORT_PATH.read_text(encoding="utf-8")) or {}
         passport["phase"] = nxt
-        with passport_path.open("w", encoding="utf-8") as handle:
+        with PASSPORT_PATH.open("w", encoding="utf-8") as handle:
             yaml.safe_dump(passport, handle, sort_keys=False, allow_unicode=True)
 
     print(f"OK: advanced to phase={nxt}")
@@ -191,7 +194,7 @@ def cmd_profiles() -> int:
 
 
 def cmd_pipeline_profiles() -> int:
-    print("Pipeline profiles (research/pipeline_profiles.yaml):")
+    print("Pipeline profiles (runtime/state/pipeline_profiles.yaml):")
     for name in list_pipeline_profile_names():
         print(f"  {name}")
     return 0

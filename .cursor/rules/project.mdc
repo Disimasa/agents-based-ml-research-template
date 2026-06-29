@@ -7,6 +7,6 @@ alwaysApply: true
 
 - Training logic lives in `src/modeling/`; entry points are `src/train.py` and `src/eval.py`.
 - Hydra configs under `configs/`; run outputs go to `outputs/` (gitignored).
-- Research state under `research/`.
+- User research artifacts under `research/`; pipeline state YAML under `runtime/state/`.
 - Do not commit `.env`, API keys, or `outputs/`.
-- In `hitl` mode (see `research/research_state.yaml`), do not advance pipeline phases without human approval.
+- In `hitl` mode (see `runtime/state/research_state.yaml`), do not advance pipeline phases without human approval.

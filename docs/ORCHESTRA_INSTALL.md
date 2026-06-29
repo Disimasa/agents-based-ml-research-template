@@ -7,7 +7,7 @@ Agent routing map lives in **`.cursor/orchestra/SKILLS_MAP.yaml`** (not in this 
 Install **only the skills you need** for the current task (agent-driven). Clone once, then symlink individual folders:
 
 ```bash
-git clone https://github.com/Orchestra-Research/AI-Research-SKILLs.git ../AI-Research-SKILLs
+git clone https://github.com/Orchestra-research/AI-Research-SKILLs.git ../AI-Research-SKILLs
 
 mkdir -p .cursor/skills/orchestra
 
@@ -23,8 +23,8 @@ Repeat for skills listed in `SKILLS_MAP.yaml` for your phase/task (e.g. **wandb*
 ## Verify
 
 ```bash
-uv run python scripts/orchestra_route.py list
-uv run python scripts/orchestra_route.py resolve execute train
+uv run python runtime/scripts/orchestra_route.py list
+uv run python runtime/scripts/orchestra_route.py resolve execute train
 ```
 
 Expected when installed: `route: orchestra/wandb` (or first matched skill).  
@@ -33,7 +33,7 @@ When not installed: `route: template/run-experiment (agent: experiment_runner)`.
 ## Agent workflow
 
 1. Skill **`orchestra-routing`** — read map, run CLI, delegate to Orchestra or fallback.
-2. After run — `experiment_provenance.yaml`, `integrity_check`, `orchestrate_pipeline.py gate`.
+2. After run — update `runtime/state/experiment_provenance.yaml`, then `uv run python runtime/scripts/integrity_check.py`, then `uv run python runtime/scripts/orchestrate_pipeline.py gate`.
 
 ## experiment-agent (optional, CC BY-NC)
 

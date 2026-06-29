@@ -15,7 +15,7 @@ Methods, reproducibility, provenance linkage, code/config consistency (M4, M5).
 
 ## Writes
 
-Append to `research/manuscript/reviews.yaml` with `reviewer_id: R1`, `role: peer_reviewer_r1`.
+Append to `runtime/state/manuscript_reviews.yaml` with `reviewer_id: R1`, `role: peer_reviewer_r1`.
 
 ## Handoff
 

@@ -6,16 +6,20 @@ Entry point for AI assistants: repository map, pipeline, agents. Rules — `.cur
 
 | Path | Purpose |
 |------|---------|
+| `research/` | Your research artifacts — [research/README.md](research/README.md) |
+| `scripts/` | Your helper scripts (data prep, batch runs) |
 | `configs/` | Hydra configs |
 | `src/modeling/` | Training code (stub until user/agent implements on execute) |
-| `research/manuscript/` | Publication track (draft, reviews, revision) |
-| `research/` | Pipeline state — [research/README.md](research/README.md) |
+| `runtime/state/` | Agent pipeline state (YAML — not user-facing) |
+| `runtime/templates/` | Starters for literature, manuscript, summaries |
+| `runtime/schemas/` | JSON schemas for state YAML |
+| `runtime/scripts/` | Orchestrator CLI, integrity, validate, orchestra route |
+| `runtime/tools/` | Maintainer utilities (playbook generator) |
+| `runtime/utils/` | Shared runtime libraries |
 | `.cursor/rules/` | 13 governance rules (incl. `full-autonomy-intent`) |
 | `.cursor/skills/` | 16 skills (research + publication + orchestra bridge) |
 | `.cursor/orchestra/` | SKILLS_MAP + EXTERNAL_SKILLS (Orchestra opt-in routing) |
 | `.cursor/agents/` | 21 agent contracts + playbooks |
-| `scripts/` | `orchestrate_pipeline.py`, `orchestra_route.py`, `integrity_check.py`, validate |
-| `shared/schemas/` | JSON schemas |
 
 ## Research + publication pipeline
 
@@ -28,7 +32,7 @@ Entry point for AI assistants: repository map, pipeline, agents. Rules — `.cur
 
 ### Full autonomy intent ("do everything + develop")
 
-Rule **`.cursor/rules/full-autonomy-intent.mdc`** (always on): agent **does not ask for profile** — sets `full-autonomous` + `mode: autonomous`, writes code on execute, logs to `to_human/summary.md`. Exception: paper only without code → `publication-only` / `full-publication` (hitl at review).
+Rule **`.cursor/rules/full-autonomy-intent.mdc`** (always on): agent **does not ask for profile** — sets `full-autonomous` + `mode: autonomous`, writes code on execute, logs to `research/to_human/summary.md`. Exception: paper only without code → `publication-only` / `full-publication` (hitl at review).
 
 ### Phases (14)
 
@@ -54,7 +58,7 @@ Rule **`.cursor/rules/full-autonomy-intent.mdc`** (always on): agent **does not 
 | Mode | Meaning |
 |------|---------|
 | M1–M5 | Research track (sources, metrics, hypotheses, provenance, code) |
-| M6 | Benchmark honesty (`reports/benchmarks/`) |
+| M6 | Benchmark honesty (`runtime/state/benchmarks/`) |
 | M7 | Manuscript ↔ passport/provenance |
 
 ### Profiles
@@ -67,18 +71,18 @@ Rule **`.cursor/rules/full-autonomy-intent.mdc`** (always on): agent **does not 
 | `full-publication` | research + publication → finalize |
 | `publication-only` | write → finalize |
 
-Full list: `research/pipeline_profiles.yaml`
+Full list: `runtime/state/pipeline_profiles.yaml`
 
 ### Orchestrator
 
 ```bash
-uv run python scripts/orchestrate_pipeline.py status
-uv run python scripts/orchestrate_pipeline.py apply-profile --name full-hitl
-uv run python scripts/orchestrate_pipeline.py pipeline-profiles
-uv run python scripts/orchestrate_pipeline.py gate
-uv run python scripts/orchestrate_pipeline.py profiles
-uv run python scripts/orchestrate_pipeline.py approve --by human
-uv run python scripts/orchestrate_pipeline.py advance
+uv run python runtime/scripts/orchestrate_pipeline.py status
+uv run python runtime/scripts/orchestrate_pipeline.py apply-profile --name full-hitl
+uv run python runtime/scripts/orchestrate_pipeline.py pipeline-profiles
+uv run python runtime/scripts/orchestrate_pipeline.py gate
+uv run python runtime/scripts/orchestrate_pipeline.py profiles
+uv run python runtime/scripts/orchestrate_pipeline.py approve --by human
+uv run python runtime/scripts/orchestrate_pipeline.py advance
 ```
 
 ```text
@@ -93,8 +97,8 @@ Playbooks: `.cursor/agents/playbooks/*.md`
 Routing map: `.cursor/orchestra/SKILLS_MAP.yaml` (not in `docs/`).
 
 ```bash
-uv run python scripts/orchestra_route.py list
-uv run python scripts/orchestra_route.py resolve execute train
+uv run python runtime/scripts/orchestra_route.py list
+uv run python runtime/scripts/orchestra_route.py resolve execute train
 ```
 
 1. Skill **`orchestra-routing`** — Orchestra skill from `.cursor/skills/orchestra/` or template fallback.
@@ -105,13 +109,13 @@ uv run python scripts/orchestra_route.py resolve execute train
 
 ```bash
 uv sync --group dev
-uv run ruff check src tests scripts
+uv run ruff check src tests runtime
 uv run pytest tests -q
-uv run python scripts/validate_research.py
-uv run python scripts/orchestrate_pipeline.py apply-profile --name hypothesis-only
-uv run python scripts/orchestrate_pipeline.py status
-uv run python scripts/orchestrate_pipeline.py gate
-uv run python scripts/orchestra_route.py resolve execute train
+uv run python runtime/scripts/validate_research.py
+uv run python runtime/scripts/orchestrate_pipeline.py apply-profile --name hypothesis-only
+uv run python runtime/scripts/orchestrate_pipeline.py status
+uv run python runtime/scripts/orchestrate_pipeline.py gate
+uv run python runtime/scripts/orchestra_route.py resolve execute train
 ```
 
 ## External optional

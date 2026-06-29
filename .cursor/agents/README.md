@@ -2,7 +2,7 @@
 
 Role definitions for the modular research pipeline. **Contracts** in this folder; **deep playbooks** in [playbooks/](playbooks/).
 
-**Orchestrator:** `pipeline_orchestrator.md` + `research-pipeline` + `scripts/orchestrate_pipeline.py`  
+**Orchestrator:** `pipeline_orchestrator.md` + `research-pipeline` + `runtime/scripts/orchestrate_pipeline.py`  
 **Integrity:** M1–M7, gates **2.5** (`integrity_pre_review`) and **4.5** (`integrity_final`)
 
 ## Roster (21 agents)
@@ -42,11 +42,11 @@ Publication: `manuscript-draft`, `peer-review`, `revision-coaching`, `manuscript
 ## CLI
 
 ```bash
-uv run python scripts/orchestrate_pipeline.py status
-uv run python scripts/orchestrate_pipeline.py gate
-uv run python scripts/orchestrate_pipeline.py profiles
-uv run python scripts/orchestra_route.py list
-uv run python scripts/integrity_check.py --phase integrity_pre_review
+uv run python runtime/scripts/orchestrate_pipeline.py status
+uv run python runtime/scripts/orchestrate_pipeline.py gate
+uv run python runtime/scripts/orchestrate_pipeline.py profiles
+uv run python runtime/scripts/orchestra_route.py list
+uv run python runtime/scripts/integrity_check.py --phase integrity_pre_review
 ```
 
-Regenerate playbooks after template edits: `python scripts/generate_playbooks.py`
+Regenerate playbooks after template edits: `python runtime/tools/generate_playbooks.py`

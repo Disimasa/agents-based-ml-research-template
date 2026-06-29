@@ -66,7 +66,7 @@ If `mode: autonomous`, write `research/to_human/summary.md`:
 
 - Run full `integrity-check` (M1–M5)
 - HITL: `pending_approval: true` until human closes pipeline
-- Autonomous: mark pipeline done in `research_state.yaml` (`current_phase: done` — use comment in state if schema lacks field)
+- Autonomous: mark pipeline done in `runtime/state/research_state.yaml` (`current_phase: done` — use comment in state if schema lacks field)
 
 ## Handoff
 

@@ -12,8 +12,8 @@
 **CLI:**
 
 ```bash
-uv run python scripts/orchestra_route.py list
-uv run python scripts/orchestra_route.py resolve execute train
+uv run python runtime/scripts/orchestra_route.py list
+uv run python runtime/scripts/orchestra_route.py resolve execute train
 ```
 
 Do not commit cloned Orchestra skills into this template repo.

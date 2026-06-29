@@ -4,7 +4,7 @@
 version: 1
 
 install:
-  source_repo: https://github.com/Orchestra-Research/AI-Research-SKILLs
+  source_repo: https://github.com/Orchestra-research/AI-Research-SKILLs
   install_dir: .cursor/skills/orchestra
   # Folder names below must match skill directories in the Orchestra repo after clone.
 
@@ -37,7 +37,7 @@ routes:
       template_fallback:
         skill: run-experiment
         agent: experiment_runner
-      notes: Prefer Orchestra for W&B/PEFT/TRL; always record provenance in research/.
+      notes: Prefer Orchestra for W&B/PEFT/TRL; always record provenance in runtime/state/.
 
     train_autonomous:
       orchestra_skills:
@@ -69,6 +69,6 @@ routes:
 rules:
   - Always run orchestra-routing before execute/analyze engineering work.
   - If no orchestra skill installed, use template_fallback only.
-  - After any run, append research/experiment_provenance.yaml and run integrity M2 M4 M6.
-  - Never skip uv run python scripts/orchestrate_pipeline.py gate in hitl mode.
+  - After any run, append runtime/state/experiment_provenance.yaml and run integrity M2 M4 M6.
+  - Never skip uv run python runtime/scripts/orchestrate_pipeline.py gate in hitl mode.
   - External NC skills (experiment-agent) require explicit user opt-in; never bundle.

@@ -15,9 +15,9 @@ description: Analyze phase — aggregate runs into benchmark JSON and update pro
 
 ## Prerequisites
 
-- `research/experiment_provenance.yaml`
+- `runtime/state/experiment_provenance.yaml`
 - Run artifacts in `outputs/` or W&B
-- `shared/schemas/benchmark_report.schema.json`
+- `runtime/schemas/benchmark_report.schema.json`
 - **`orchestra-routing`** for `analyze` / `eval` (see SKILLS_MAP)
 
 ## Steps
@@ -25,7 +25,7 @@ description: Analyze phase — aggregate runs into benchmark JSON and update pro
 ### 0. Route (Orchestra or template)
 
 ```bash
-uv run python scripts/orchestra_route.py resolve analyze eval
+uv run python runtime/scripts/orchestra_route.py resolve analyze eval
 ```
 
 ### 1. Collect metrics
@@ -33,9 +33,9 @@ uv run python scripts/orchestra_route.py resolve analyze eval
 - Read only from logs, W&B, or csv in `outputs/` — **never invent**
 - If `status: blocked_stub`, report `not_executed` honestly
 
-### 2. Write `reports/benchmarks/{experiment_id}.json`
+### 2. Write `runtime/state/benchmarks/{experiment_id}.json`
 
-Canonical format — `shared/schemas/benchmark_report.schema.json`:
+Canonical format — `runtime/schemas/benchmark_report.schema.json`:
 
 ```json
 {
@@ -55,7 +55,7 @@ Canonical format — `shared/schemas/benchmark_report.schema.json`:
 
 Required: `experiment_id`, `primary_metric` (`name`, `status`), and either non-empty `honest_comparison_notes` or at least one `limitations` entry.
 
-Validate: `uv run python scripts/validate_benchmark.py`
+Validate: `uv run python runtime/scripts/validate_benchmark.py`
 
 ### 3. Update provenance
 
@@ -70,7 +70,7 @@ Only claims with `experiment_id` reference:
 claims:
   - statement: "..."
     experiment_id: exp_001
-    evidence: reports/benchmarks/exp_001.json
+    evidence: runtime/state/benchmarks/exp_001.json
 ```
 
 ### 5. Gate

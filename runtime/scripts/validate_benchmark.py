@@ -1,29 +1,27 @@
-"""Validate reports/benchmarks/*.json."""
+"""Validate runtime/state/benchmarks/*.json."""
 
 from __future__ import annotations
 
 import json
 import sys
-from pathlib import Path
 
 import jsonschema
 
-ROOT = Path(__file__).resolve().parents[1]
-BENCHMARK_DIR = ROOT / "reports" / "benchmarks"
-SCHEMA_PATH = ROOT / "shared" / "schemas" / "benchmark_report.schema.json"
+from runtime.utils.paths import BENCHMARKS_DIR, SCHEMA_DIR
 
 
 def main() -> int:
-    if not SCHEMA_PATH.exists():
-        print(f"missing schema: {SCHEMA_PATH}", file=sys.stderr)
+    schema_path = SCHEMA_DIR / "benchmark_report.schema.json"
+    if not schema_path.exists():
+        print(f"missing schema: {schema_path}", file=sys.stderr)
         return 1
 
-    reports = sorted(BENCHMARK_DIR.glob("*.json"))
+    reports = sorted(BENCHMARKS_DIR.glob("*.json"))
     if not reports:
         print("OK: no benchmark reports to validate")
         return 0
 
-    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
     validator = jsonschema.Draft202012Validator(schema)
     failures: list[str] = []
 

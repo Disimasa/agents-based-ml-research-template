@@ -23,16 +23,16 @@ You structure literature discovery using outline + fields + JSON results (Weizhe
 
 ## Example output
 
-`research/literature/contrastive_rerank/outline.yaml` with 5–15 `items[]`, each with `query_hints` and `priority`.
+`runtime/state/literature/contrastive_rerank/outline.yaml` with 5–15 `items[]`, each with `query_hints` and `priority`.
 
 ## Procedure
 
-1. Read `research_question` from passport.
-2. Create `research/literature/{topic_slug}/` (not `_example`).
-3. Draft `outline.yaml` — thematic items, execution batch settings.
-4. Define `fields.yaml` (method, metrics, limitations, dataset).
+1. Read `research_question` from `runtime/state/passport.yaml`.
+2. Create `runtime/state/literature/{topic_slug}/` and `research/literature/{topic_slug}/results/`.
+3. Draft `runtime/state/literature/{topic_slug}/outline.yaml` — thematic items, execution batch settings.
+4. Define `runtime/state/literature/{topic_slug}/fields.yaml` (method, metrics, limitations, dataset).
 5. **HITL:** pause for outline approval before deep search.
-6. For each outline item, search and write `results/batch_N.json`.
+6. For each outline item, search and write `research/literature/{topic_slug}/results/batch_N.json`.
 7. Each entry: `id`, `title`, `year`, `doi`, `url`, `verified: false`, `fields{}`.
 8. Hand off to `source_verifier`; update `passport.phase: discover`.
 9. Run `integrity_check.py --modes M1` before gate.

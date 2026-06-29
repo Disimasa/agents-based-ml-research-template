@@ -6,12 +6,13 @@ from typing import Any
 
 import yaml
 
-from src.utils.integrity import PHASE_ORDER, load_pipeline_profiles, load_research_state
-from src.utils.validate import RESEARCH_DIR, load_yaml
+from runtime.utils.integrity import PHASE_ORDER, load_pipeline_profiles, load_research_state
+from runtime.utils.paths import STATE_DIR
+from runtime.utils.validate import load_yaml
 
-PIPELINE_CONFIG_PATH = RESEARCH_DIR / "pipeline.yaml"
-STATE_PATH = RESEARCH_DIR / "research_state.yaml"
-PASSPORT_PATH = RESEARCH_DIR / "passport.yaml"
+PIPELINE_CONFIG_PATH = STATE_DIR / "pipeline.yaml"
+STATE_PATH = STATE_DIR / "research_state.yaml"
+PASSPORT_PATH = STATE_DIR / "passport.yaml"
 
 
 def first_enabled_phase(phases_enabled: list[str]) -> str | None:

@@ -1,12 +1,12 @@
 ---
-description: Honest benchmark reports under reports/benchmarks/
-globs: reports/benchmarks/**
+description: Honest benchmark reports under runtime/state/benchmarks/
+globs: runtime/state/benchmarks/**
 alwaysApply: false
 ---
 
 # Benchmarks
 
-- Reports live in `reports/benchmarks/*.json` and must conform to `shared/schemas/benchmark_report.schema.json`.
+- Reports live in `runtime/state/benchmarks/*.json` and must conform to `runtime/schemas/benchmark_report.schema.json`.
 - Include baselines, seeds, data splits, and known limitations.
-- Never cherry-pick runs; link each row to `experiment_provenance.yaml`.
+- Never cherry-pick runs; link each row to `runtime/state/experiment_provenance.yaml`.
 - Negative or null results belong in provenance `negative_results`, not omitted from reports.

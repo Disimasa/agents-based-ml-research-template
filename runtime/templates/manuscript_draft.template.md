@@ -14,7 +14,7 @@ abstract: null
 ## Results
 
 <!-- experiment_id: exp_001 -->
-(results only from reports/benchmarks/ and provenance)
+(results only from runtime/state/benchmarks/ and provenance)
 
 ## Discussion
 

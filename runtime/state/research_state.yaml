@@ -1,16 +1,13 @@
-# Runtime state for research pipeline orchestrator
-
-mode: hitl  # hitl | autonomous
+mode: hitl
 pipeline_profile: hypothesis-only
 phases_enabled:
-  - discover
-  - ideate
-  - synthesize
+- discover
+- ideate
+- synthesize
 current_phase: discover
 pending_approval: false
 approved_by: null
 approved_at: null
-
 autonomous:
   max_iterations: 20
   max_wall_time_hours: 8

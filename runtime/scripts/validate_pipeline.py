@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import sys
 
-from src.utils.validate import validate_research
+from runtime.utils.validate import validate_research
 
 TARGETS = {
     "pipeline.yaml": "pipeline.schema.json",

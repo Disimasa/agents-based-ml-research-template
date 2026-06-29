@@ -11,13 +11,13 @@ description: Execute phase (autonomous) — inner optimization loop with stop co
 
 ## When to use
 
-- `research/research_state.yaml` → `mode: autonomous`
+- `runtime/state/research_state.yaml` → `mode: autonomous`
 - Profile `full-autonomous` or custom with execute + autonomous settings
 
 ## Prerequisites
 
 - Approved plan (autonomous may auto-approve if integrity PASS)
-- `autonomous.max_iterations`, `metric_primary` set in `research_state.yaml`
+- `autonomous.max_iterations`, `metric_primary` set in `runtime/state/research_state.yaml`
 - **`orchestra-routing`** for `execute` / `train_autonomous` (see SKILLS_MAP)
 
 ## Stop conditions

@@ -24,13 +24,13 @@ description: Optional bridge to experiment-agent (CC BY-NC) for run/validate mod
 1. Confirm user opt-in (decision_log entry).
 2. Read inputs from template:
    - `research/methodology.md`
-   - `research/passport.yaml`
-   - `research/experiment_provenance.yaml`
+   - `runtime/state/passport.yaml`
+   - `runtime/state/experiment_provenance.yaml`
 3. **plan** — delegate experiment design; merge with template `research-plan` if needed.
 4. **run** — user-specified commands only (upstream safety rule); monitor; no auto-retry.
 5. **validate** — statistical interpretation + reproducibility re-run; output `verification_status`:
    - `planned` | `analyzed` | `verified`
-6. Write results to `research/experiment_provenance.yaml`:
+6. Write results to `runtime/state/experiment_provenance.yaml`:
 
 ```yaml
 experiments:

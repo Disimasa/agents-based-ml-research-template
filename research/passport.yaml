@@ -1,7 +1,0 @@
-# Material Passport (lite) — handoff object between pipeline phases
-
-research_question: null
-phase: discover
-claims: []
-planned_experiment_ids: []
-experiment_intake_declaration: no_experiments_declared  # experiments_declared | no_experiments_declared
