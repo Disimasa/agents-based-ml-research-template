@@ -5,7 +5,6 @@
 | File | Purpose |
 |------|---------|
 | `SKILLS_MAP.yaml` | Phase/task → Orchestra skill names + template fallback |
-| `EXTERNAL_SKILLS.yaml` | Optional NC/MIT external repos (experiment-agent, K-Dense) |
 
 **Install target:** `.cursor/skills/orchestra/` (gitignored symlinks — see [docs/ORCHESTRA_INSTALL.md](../../docs/ORCHESTRA_INSTALL.md)).
 

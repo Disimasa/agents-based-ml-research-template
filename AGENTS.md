@@ -17,8 +17,8 @@ Entry point for AI assistants: repository map, pipeline, agents. Rules — `.cur
 | `runtime/tools/` | Maintainer utilities (playbook generator) |
 | `runtime/utils/` | Shared runtime libraries |
 | `.cursor/rules/` | 13 governance rules (incl. `full-autonomy-intent`) |
-| `.cursor/skills/` | 16 skills (research + publication + orchestra bridge) |
-| `.cursor/orchestra/` | SKILLS_MAP + EXTERNAL_SKILLS (Orchestra opt-in routing) |
+| `.cursor/skills/` | 15 skills (research + publication + orchestra bridge) |
+| `.cursor/orchestra/` | SKILLS_MAP (Orchestra opt-in routing) |
 | `.cursor/agents/` | 21 agent contracts + playbooks |
 
 ## Research + publication pipeline
@@ -102,8 +102,7 @@ uv run python runtime/scripts/orchestra_route.py resolve execute train
 ```
 
 1. Skill **`orchestra-routing`** — Orchestra skill from `.cursor/skills/orchestra/` or template fallback.
-2. Optional **`experiment-agent-bridge`** (CC BY-NC) — see `EXTERNAL_SKILLS.yaml`.
-3. Per-task install: [docs/ORCHESTRA_INSTALL.md](docs/ORCHESTRA_INSTALL.md).
+2. Per-task install: [docs/ORCHESTRA_INSTALL.md](docs/ORCHESTRA_INSTALL.md).
 
 ## Commands
 

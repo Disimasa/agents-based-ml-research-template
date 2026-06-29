@@ -35,19 +35,9 @@ When not installed: `route: template/run-experiment (agent: experiment_runner)`.
 1. Skill **`orchestra-routing`** — read map, run CLI, delegate to Orchestra or fallback.
 2. After run — update `runtime/state/experiment_provenance.yaml`, then `uv run python runtime/scripts/integrity_check.py`, then `uv run python runtime/scripts/orchestrate_pipeline.py gate`.
 
-## experiment-agent (optional, CC BY-NC)
-
-Separate from Orchestra MIT skills. See [experiment-agent](https://github.com/Imbad0202/experiment-agent).
-
-```bash
-git clone https://github.com/Imbad0202/experiment-agent.git ../experiment-agent
-```
-
-Use template skill **`experiment-agent-bridge`** — config in `.cursor/orchestra/EXTERNAL_SKILLS.yaml`.
-
 ## Do not
 
-- Commit cloned Orchestra or experiment-agent repos into ml-research-template
+- Commit cloned Orchestra repos into ml-research-template
 - Copy their SKILL.md into this repository (license + maintenance)
 
 ## See also

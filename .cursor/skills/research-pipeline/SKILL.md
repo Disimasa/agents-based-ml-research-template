@@ -84,7 +84,6 @@ Before invoking phase skill for **execute** or **analyze**:
    - execute → `train` or `train_autonomous`  
    - analyze → `eval`
 3. Use resolved Orchestra skill or `template_fallback` from the map.
-4. Optional validate: **`experiment-agent-bridge`** (`execute_validate.reproducibility`).
 
 ## Advance protocol
 

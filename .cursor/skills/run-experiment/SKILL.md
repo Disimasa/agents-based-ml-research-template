@@ -64,7 +64,7 @@ experiments:
     negative_results: []
     known_limitations: []
     status: completed  # planned | running | completed | failed | blocked_stub | not_executed
-    verification_status: analyzed  # planned | analyzed | verified (experiment-agent-bridge)
+    verification_status: analyzed  # planned | analyzed | verified (integrity / implementation_reviewer)
 ```
 
 ### 4. Implementation review

@@ -39,6 +39,7 @@ All notable changes to this template. Format based on [Keep a Changelog](https:/
 - `shared/schemas/` (→ `runtime/schemas/`).
 - Pipeline state YAML from root `research/` (→ `runtime/state/`).
 - `NOTICE.md` (attributions in `docs/REFERENCES.md`).
+- `experiment-agent-bridge` skill, `EXTERNAL_SKILLS.yaml`, and `execute_validate` Orchestra route (architecture credit only in REFERENCES).
 
 ## [0.1.0] - 2026-06-27
 

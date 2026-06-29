@@ -56,19 +56,8 @@ routes:
         skill: analyze-results
         agent: results_analyst
 
-  execute_validate:
-    reproducibility:
-      orchestra_skills: []
-      external_bridge: experiment-agent-bridge
-      external_modes: [validate, run]
-      template_fallback:
-        skill: run-experiment
-        agent: implementation_reviewer
-      notes: See .cursor/orchestra/EXTERNAL_SKILLS.yaml for experiment-agent (CC BY-NC).
-
 rules:
   - Always run orchestra-routing before execute/analyze engineering work.
   - If no orchestra skill installed, use template_fallback only.
   - After any run, append runtime/state/experiment_provenance.yaml and run integrity M2 M4 M6.
   - Never skip uv run python runtime/scripts/orchestrate_pipeline.py gate in hitl mode.
-  - External NC skills (experiment-agent) require explicit user opt-in; never bundle.

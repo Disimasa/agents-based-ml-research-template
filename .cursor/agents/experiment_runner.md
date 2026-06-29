@@ -48,10 +48,10 @@ experiments:
 Read `.cursor/orchestra/SKILLS_MAP.yaml` via skill **`orchestra-routing`**:
 
 ```bash
-uv run python runtime/scripts/orchestra_route.py resolve analyze eval
+uv run python runtime/scripts/orchestra_route.py resolve execute train
 ```
 
-Optional validate: **`experiment-agent-bridge`** (CC BY-NC opt-in).
+Reproducibility and validation use template `implementation_reviewer` + `integrity-check` (M2, M4, M6).
 
 ## Quality bar
 

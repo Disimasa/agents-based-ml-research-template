@@ -35,7 +35,7 @@ Role definitions for the modular research pipeline. **Contracts** in this folder
 
 Research: `new-project`, `literature-survey`, `hypothesis-ideation`, `research-plan`, `run-experiment`, `autonomous-loop`, `analyze-results`, `log-decision`, `integrity-check`, `research-pipeline`
 
-Orchestra bridge: `orchestra-routing`, `experiment-agent-bridge` (map: `.cursor/orchestra/`)
+Orchestra bridge: `orchestra-routing` (map: `.cursor/orchestra/SKILLS_MAP.yaml`)
 
 Publication: `manuscript-draft`, `peer-review`, `revision-coaching`, `manuscript-finalize`
 
