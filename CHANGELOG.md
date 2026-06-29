@@ -30,6 +30,15 @@ All notable changes to this template. Format based on [Keep a Changelog](https:/
 - **CLI entry points** live under `runtime/scripts/` (no root `scripts/` wrappers).
 - **AGENTS.md**, rules, skills, and agents aligned to `runtime/state/` and `research/` paths.
 - **`validate_research.py`** validates `STATE_FILES` in `runtime/state/`.
+- **Third-party attributions** consolidated in `docs/REFERENCES.md` (removed redundant `NOTICE.md`).
+
+### Removed
+
+- Root `scripts/` compatibility wrappers (`orchestrate_pipeline`, `validate_*`, `integrity_check`, `orchestra_route`).
+- `src/utils/` pipeline shims (orchestrator code lives in `runtime/utils/`).
+- `shared/schemas/` (→ `runtime/schemas/`).
+- Pipeline state YAML from root `research/` (→ `runtime/state/`).
+- `NOTICE.md` (attributions in `docs/REFERENCES.md`).
 
 ## [0.1.0] - 2026-06-27
 

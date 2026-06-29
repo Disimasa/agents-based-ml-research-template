@@ -54,4 +54,3 @@ Use template skill **`experiment-agent-bridge`** — config in `.cursor/orchestr
 
 - [.cursor/orchestra/README.md](../.cursor/orchestra/README.md)
 - [REFERENCES.md](REFERENCES.md)
-- [NOTICE.md](../NOTICE.md)

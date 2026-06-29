@@ -87,4 +87,4 @@ uv run pytest tests -q
 
 ## License
 
-MIT — [LICENSE](LICENSE), [NOTICE.md](NOTICE.md).
+MIT — [LICENSE](LICENSE). Third-party attributions: [docs/REFERENCES.md](docs/REFERENCES.md).
