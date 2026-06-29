@@ -28,6 +28,13 @@ def list_pipeline_profile_names() -> list[str]:
     return sorted(profiles.keys())
 
 
+def validate_profile_phases(phases: list[str]) -> None:
+    unknown = [phase for phase in phases if phase not in PHASE_ORDER]
+    if unknown:
+        known = ", ".join(PHASE_ORDER)
+        raise ValueError(f"unknown phase(s) in profile: {', '.join(unknown)} (known: {known})")
+
+
 def apply_pipeline_profile(profile_name: str) -> dict[str, Any]:
     data = load_pipeline_profiles()
     profiles = data.get("profiles") or {}
@@ -40,6 +47,8 @@ def apply_pipeline_profile(profile_name: str) -> dict[str, Any]:
     phases = list(profile.get("phases") or [])
     if not phases:
         raise ValueError(f"profile {profile_name} has no phases")
+
+    validate_profile_phases(phases)
 
     first = first_enabled_phase(phases)
     if first is None:

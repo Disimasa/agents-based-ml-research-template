@@ -4,6 +4,8 @@ experiments: []
 #   wandb_run_id: null
 #   status: blocked_stub  # planned | running | completed | failed | blocked_stub | not_executed
 #   verification_status: planned  # planned | analyzed | verified (experiment-agent-bridge)
-#   planned_vs_executed: []
+#   planned_vs_executed:
+#     - planned: exp_001
+#       executed: false
 #   negative_results: []
 #   known_limitations: []

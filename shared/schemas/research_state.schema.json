@@ -3,14 +3,23 @@
   "$id": "research_state.schema.json",
   "title": "Research Pipeline State",
   "type": "object",
-  "required": ["mode", "pipeline_profile", "current_phase"],
+  "required": ["mode", "pipeline_profile", "current_phase", "phases_enabled", "pending_approval"],
   "properties": {
     "mode": { "type": "string", "enum": ["hitl", "autonomous"] },
     "pipeline_profile": { "type": "string" },
     "phases_enabled": { "type": "array", "items": { "type": "string" } },
     "current_phase": { "type": "string" },
     "pending_approval": { "type": "boolean" },
-    "approved_by": { "type": ["string", "null"] },
-    "autonomous": { "type": "object" }
+    "approved_by": { "type": ["string", "null"], "enum": ["human", "ai", null] },
+    "approved_at": { "type": ["string", "null"] },
+    "autonomous": {
+      "type": "object",
+      "properties": {
+        "max_iterations": { "type": "integer", "minimum": 1 },
+        "max_wall_time_hours": { "type": "number", "minimum": 0.1 },
+        "metric_primary": { "type": ["string", "null"] },
+        "stop_on_plateau": { "type": "integer", "minimum": 0 }
+      }
+    }
   }
 }

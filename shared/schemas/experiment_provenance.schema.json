@@ -24,7 +24,15 @@
           },
           "planned_vs_executed": {
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "object",
+              "required": ["planned", "executed"],
+              "properties": {
+                "planned": { "type": "string" },
+                "executed": { "type": "boolean" }
+              },
+              "additionalProperties": false
+            }
           },
           "negative_results": {
             "type": "array",

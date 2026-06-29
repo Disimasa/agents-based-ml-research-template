@@ -1,13 +1,13 @@
 # AGENTS.md
 
-Точка входа для AI-ассистентов: карта репозитория, pipeline, агенты. Правила — `.cursor/rules/`, сценарии — `.cursor/skills/`, роли — `.cursor/agents/` (+ [playbooks](.cursor/agents/playbooks/)).
+Entry point for AI assistants: repository map, pipeline, agents. Rules — `.cursor/rules/`, workflows — `.cursor/skills/`, roles — `.cursor/agents/` (+ [playbooks](.cursor/agents/playbooks/)).
 
 ## Layout
 
 | Path | Purpose |
 |------|---------|
 | `configs/` | Hydra configs |
-| `src/modeling/` | Training code (stub until Wave A) |
+| `src/modeling/` | Training code (stub until user/agent implements on execute) |
 | `research/manuscript/` | Publication track (draft, reviews, revision) |
 | `research/` | Pipeline state — [research/README.md](research/README.md) |
 | `.cursor/rules/` | 13 governance rules (incl. `full-autonomy-intent`) |
@@ -19,18 +19,18 @@
 
 ## Research + publication pipeline
 
-### Режимы
+### Modes
 
-| Mode | Поведение |
-|------|-----------|
-| `hitl` | `pending_approval` + `approved_by: human` между фазами |
-| `autonomous` | auto-advance при PASS gate; inner loop на execute |
+| Mode | Behavior |
+|------|----------|
+| `hitl` | `pending_approval` + `approved_by: human` between phases |
+| `autonomous` | auto-advance on PASS gate; inner loop on execute; preflight guardrails |
 
 ### Full autonomy intent ("do everything + develop")
 
 Rule **`.cursor/rules/full-autonomy-intent.mdc`** (always on): agent **does not ask for profile** — sets `full-autonomous` + `mode: autonomous`, writes code on execute, logs to `to_human/summary.md`. Exception: paper only without code → `publication-only` / `full-publication` (hitl at review).
 
-### Фазы (14)
+### Phases (14)
 
 | Phase | Skill | Agent(s) |
 |-------|-------|----------|
@@ -51,22 +51,23 @@ Rule **`.cursor/rules/full-autonomy-intent.mdc`** (always on): agent **does not 
 
 ### Integrity M1–M7
 
-| Mode | Смысл |
-|------|--------|
+| Mode | Meaning |
+|------|---------|
 | M1–M5 | Research track (sources, metrics, hypotheses, provenance, code) |
 | M6 | Benchmark honesty (`reports/benchmarks/`) |
 | M7 | Manuscript ↔ passport/provenance |
 
-### Профили
+### Profiles
 
-| Profile | Срез |
-|---------|------|
+| Profile | Scope |
+|---------|-------|
 | `hypothesis-only` | discover → ideate → synthesize |
-| `full-hitl` | research track |
+| `full-hitl` | full research track |
+| `full-autonomous` | full research track, autonomous mode |
 | `full-publication` | research + publication → finalize |
 | `publication-only` | write → finalize |
 
-Полный список: `research/pipeline_profiles.yaml`
+Full list: `research/pipeline_profiles.yaml`
 
 ### Orchestrator
 
@@ -89,16 +90,16 @@ Playbooks: `.cursor/agents/playbooks/*.md`
 
 ## Orchestra bridge (execute / analyze)
 
-Карта маршрутизации: `.cursor/orchestra/SKILLS_MAP.yaml` (не в `docs/`).
+Routing map: `.cursor/orchestra/SKILLS_MAP.yaml` (not in `docs/`).
 
 ```bash
 uv run python scripts/orchestra_route.py list
 uv run python scripts/orchestra_route.py resolve execute train
 ```
 
-1. Skill **`orchestra-routing`** — Orchestra skill из `.cursor/skills/orchestra/` или template fallback.
-2. Опционально **`experiment-agent-bridge`** (CC BY-NC) — см. `EXTERNAL_SKILLS.yaml`.
-3. Установка по задаче: [docs/ORCHESTRA_INSTALL.md](docs/ORCHESTRA_INSTALL.md) (агент ставит только нужный skill).
+1. Skill **`orchestra-routing`** — Orchestra skill from `.cursor/skills/orchestra/` or template fallback.
+2. Optional **`experiment-agent-bridge`** (CC BY-NC) — see `EXTERNAL_SKILLS.yaml`.
+3. Per-task install: [docs/ORCHESTRA_INSTALL.md](docs/ORCHESTRA_INSTALL.md).
 
 ## Commands
 
@@ -106,7 +107,7 @@ uv run python scripts/orchestra_route.py resolve execute train
 uv sync --group dev
 uv run ruff check src tests scripts
 uv run pytest tests -q
-```bash
+uv run python scripts/validate_research.py
 uv run python scripts/orchestrate_pipeline.py apply-profile --name hypothesis-only
 uv run python scripts/orchestrate_pipeline.py status
 uv run python scripts/orchestrate_pipeline.py gate
@@ -115,4 +116,4 @@ uv run python scripts/orchestra_route.py resolve execute train
 
 ## External optional
 
-[docs/REFERENCES.md](docs/REFERENCES.md) — Orchestra/K-Dense/ARS opt-in (не bundle).
+[docs/REFERENCES.md](docs/REFERENCES.md) — Orchestra/K-Dense/ARS opt-in (not bundled).

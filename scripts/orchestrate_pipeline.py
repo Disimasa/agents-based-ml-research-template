@@ -10,6 +10,7 @@ import yaml
 
 from src.utils.integrity import (
     GATE_PROFILES,
+    autonomous_preflight,
     can_advance,
     gate_modes_for_phase,
     load_research_state,
@@ -111,6 +112,11 @@ def cmd_gate() -> int:
             print(f"  - {finding}")
 
     ok, reasons = can_advance(state, report)
+    preflight = autonomous_preflight(state)
+    if preflight:
+        print("autonomous preflight:", file=sys.stderr)
+        for finding in preflight:
+            print(f"  - {finding}", file=sys.stderr)
     if ok:
         print("GATE: PASS — safe to advance")
         return 0
@@ -138,6 +144,12 @@ def cmd_approve(by: str) -> int:
 
 
 def cmd_advance() -> int:
+    schema_failures = validate_research()
+    if schema_failures:
+        for message in schema_failures:
+            print(message, file=sys.stderr)
+        return 1
+
     state = load_research_state()
     current = state.get("current_phase")
     report = run_integrity_check(phase=current)

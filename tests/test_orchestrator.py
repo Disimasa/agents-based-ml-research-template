@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from src.utils.integrity import can_advance, next_phase, run_integrity_check
+from src.utils.integrity import autonomous_preflight, can_advance, next_phase, run_integrity_check
 from src.utils.pipeline import apply_pipeline_profile
 
 
@@ -81,3 +81,44 @@ def test_apply_full_hitl_starts_bootstrap(tmp_path: Path, monkeypatch: pytest.Mo
 
     result = apply_pipeline_profile("full-hitl")
     assert result["current_phase"] == "bootstrap"
+
+
+def test_autonomous_preflight_requires_research_question() -> None:
+    state = {
+        "mode": "autonomous",
+        "current_phase": "discover",
+        "phases_enabled": ["discover", "ideate"],
+        "autonomous": {
+            "max_iterations": 20,
+            "max_wall_time_hours": 8,
+            "stop_on_plateau": 3,
+            "metric_primary": None,
+        },
+    }
+    findings = autonomous_preflight(state)
+    assert any("research_question" in item for item in findings)
+
+
+def test_autonomous_preflight_requires_metric_on_execute(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    research = tmp_path / "research"
+    research.mkdir()
+    (research / "passport.yaml").write_text(
+        yaml.safe_dump({"research_question": "Does X improve Y?"}), encoding="utf-8"
+    )
+    monkeypatch.setattr("src.utils.integrity.RESEARCH_DIR", research)
+
+    state = {
+        "mode": "autonomous",
+        "current_phase": "execute",
+        "phases_enabled": ["execute", "analyze"],
+        "autonomous": {
+            "max_iterations": 20,
+            "max_wall_time_hours": 8,
+            "stop_on_plateau": 3,
+            "metric_primary": None,
+        },
+    }
+    findings = autonomous_preflight(state)
+    assert any("metric_primary" in item for item in findings)

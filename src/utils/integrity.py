@@ -386,6 +386,7 @@ def can_advance(state: dict[str, Any], integrity: IntegrityReport) -> tuple[bool
     reasons: list[str] = []
     if not integrity.passed:
         reasons.extend(integrity.failures())
+    reasons.extend(autonomous_preflight(state))
     if state.get("pending_approval"):
         reasons.append("pending_approval is true — approve before advance")
     mode = state.get("mode", "hitl")
@@ -398,3 +399,38 @@ def can_advance(state: dict[str, Any], integrity: IntegrityReport) -> tuple[bool
     if nxt is None:
         reasons.append("no next phase in phases_enabled — pipeline may be complete")
     return (len(reasons) == 0, reasons)
+
+
+def autonomous_preflight(state: dict[str, Any]) -> list[str]:
+    """Guardrails when mode is autonomous."""
+    if state.get("mode") != "autonomous":
+        return []
+
+    findings: list[str] = []
+    autonomous = state.get("autonomous")
+    if not isinstance(autonomous, dict):
+        findings.append("autonomous mode requires autonomous: {} block in research_state.yaml")
+        return findings
+
+    for key in ("max_iterations", "max_wall_time_hours", "stop_on_plateau"):
+        if key not in autonomous:
+            findings.append(f"autonomous.{key} is required in autonomous mode")
+
+    phases_enabled = state.get("phases_enabled") or []
+    current = state.get("current_phase")
+    execute_track = "execute" in phases_enabled
+
+    passport = load_yaml(RESEARCH_DIR / "passport.yaml")
+    question = passport.get("research_question")
+    if current != "bootstrap" and not (isinstance(question, str) and question.strip()):
+        findings.append("autonomous mode requires non-empty passport.research_question")
+
+    if execute_track and current in {"execute", "analyze", "synthesize"}:
+        metric = autonomous.get("metric_primary")
+        if not (isinstance(metric, str) and metric.strip()):
+            findings.append(
+                "autonomous mode with execute phase requires autonomous.metric_primary "
+                "before execute/analyze"
+            )
+
+    return findings

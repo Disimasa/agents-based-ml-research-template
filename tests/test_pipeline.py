@@ -13,6 +13,7 @@ from src.utils.pipeline import (
     apply_pipeline_profile,
     first_enabled_phase,
     list_pipeline_profile_names,
+    validate_profile_phases,
 )
 
 
@@ -95,3 +96,46 @@ def test_benchmark_schema_accepts_canonical_example() -> None:
     import jsonschema
 
     jsonschema.Draft202012Validator(schema).validate(example)
+
+
+def test_experiment_provenance_schema_planned_vs_executed() -> None:
+    schema_path = Path("shared/schemas/experiment_provenance.schema.json")
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    import jsonschema
+
+    example = {
+        "experiments": [
+            {
+                "experiment_id": "exp_001",
+                "planned_vs_executed": [{"planned": "exp_001", "executed": True}],
+            }
+        ]
+    }
+    jsonschema.Draft202012Validator(schema).validate(example)
+
+
+def test_validate_profile_phases_rejects_unknown() -> None:
+    with pytest.raises(ValueError, match="unknown phase"):
+        validate_profile_phases(["discover", "not-a-phase"])
+
+
+def test_apply_profile_rejects_invalid_phase(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    research = tmp_path / "research"
+    research.mkdir()
+    profiles = {
+        "profiles": {
+            "bad": {"mode": "hitl", "phases": ["discover", "typo-phase"]},
+        }
+    }
+    (research / "pipeline_profiles.yaml").write_text(
+        yaml.safe_dump(profiles), encoding="utf-8"
+    )
+    (research / "research_state.yaml").write_text("{}", encoding="utf-8")
+    monkeypatch.setattr("src.utils.pipeline.RESEARCH_DIR", research)
+    monkeypatch.setattr("src.utils.pipeline.STATE_PATH", research / "research_state.yaml")
+    monkeypatch.setattr("src.utils.pipeline.PIPELINE_CONFIG_PATH", research / "pipeline.yaml")
+    monkeypatch.setattr("src.utils.integrity.RESEARCH_DIR", research)
+    with pytest.raises(ValueError, match="unknown phase"):
+        apply_pipeline_profile("bad")
